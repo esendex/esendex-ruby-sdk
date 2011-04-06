@@ -1,6 +1,18 @@
 = esendex
 
-Description goes here.
+Gem for interacting with the Esendex API
+
+This is in very early stages of development
+
+== Testing
+
+	rake test
+	
+will run unit tests, ie those in the root of the test folder
+
+	rake integration_test
+
+will run integration tests, ie only those in the /test/integration folder
 
 == Contributing to esendex
  
@@ -14,6 +26,6 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2011 Adam Bird. See LICENSE.txt for
+Copyright (c) 2011 Esendex Ltd. See LICENSE.txt for
 further details.
 

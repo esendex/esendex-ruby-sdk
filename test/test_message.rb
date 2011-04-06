@@ -1,0 +1,24 @@
+require 'helper'
+
+class TestMessage < Test::Unit::TestCase
+  should "create a valid xml representation of a message" do
+    target = Esendex::Message.new("07777111333", "Hello World")
+    
+    actual = target.xml_node
+    
+    assert_equal "07777111333", actual.elements["//message/to"].text
+    assert_equal "Hello World", actual.elements["//message/body"].text
+  end
+  
+  should "create a valid xml representation if from specified" do
+    target = Esendex::Message.new("07777111333", "Hello World")
+    target.from = "BilgeInc"
+    
+    actual = target.xml_node
+    
+    assert_equal "07777111333", actual.elements["//message/to"].text
+    assert_equal "Hello World", actual.elements["//message/body"].text
+    assert_equal "BilgeInc", actual.elements["//message/from"].text
+    
+  end
+end

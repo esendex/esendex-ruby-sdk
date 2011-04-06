@@ -1,0 +1,17 @@
+require 'helper'
+include Esendex
+
+class TestAccount < Test::Unit::TestCase
+  should "validate account when a new one is created" do
+    code_challenge_account = Account.new("EX0068832", "codechallenge@esendex.com", "c0d3cha113ng3")
+    
+    assert code_challenge_account.messages_remaining > 0
+  end
+  
+  should "send a message" do
+    code_challenge_account = Account.new("EX0068832", "codechallenge@esendex.com", "c0d3cha113ng3")
+    
+    code_challenge_account.send(Message.new("07515353741", "Hello from the Esendex Ruby Gem"))
+    
+  end
+end
