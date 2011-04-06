@@ -11,7 +11,7 @@ class TestAccount < Test::Unit::TestCase
   should "send a message" do
     code_challenge_account = Account.new("EX0068832", "codechallenge@esendex.com", "c0d3cha113ng3")
     
-    code_challenge_account.send(Message.new("07515353741", "Hello from the Esendex Ruby Gem"))
+    code_challenge_account.send(Message.new("447815777555", "Hello from the Esendex Ruby Gem"))
     
   end
 end

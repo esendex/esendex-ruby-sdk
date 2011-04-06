@@ -3,12 +3,12 @@ require 'rexml/document'
 
 module Esendex
   class Account
-    def initialize(account_reference, username, password)
+    def initialize(account_reference, username, password, connection = Nestful::Connection.new('https://api.esendex.com'))
       @account_reference = account_reference
       @username = username
       @password = password
 
-      @connection = Nestful::Connection.new('https://api.esendex.com')
+      @connection = connection
       @connection.user = @username
       @connection.password = @password
       @connection.auth_type = :basic
@@ -40,6 +40,8 @@ module Esendex
       messages.root.elements << message.xml_node
 
       response = @connection.post "/v1.0/messagedispatcher", messages.to_s
+      doc = REXML::Document.new(response.body)
+      doc.root.attributes["batchid"]
     end
   end
 end
