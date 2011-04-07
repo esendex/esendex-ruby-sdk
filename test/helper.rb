@@ -16,8 +16,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'esendex'
-require 'account'
-require 'message'
+
 
 class Test::Unit::TestCase
 end
