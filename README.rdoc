@@ -4,6 +4,20 @@ Gem for interacting with the Esendex API
 
 This is in very early stages of development
 
+== Sending Messages
+
+First instantiate an Account with your credentials
+	
+	account = Account.new "EX123456", "user@company.com", "yourpassword"
+	
+then, call the send method on the account object with a message. The return value is a batch_id you can use to obtain the status of the messages you have sent.
+
+	batch_id = account.send Message.new("07777111222", "Saying hello to the world with the help of Esendex")
+	
+== Errors
+
+
+
 == Testing
 
 	rake test

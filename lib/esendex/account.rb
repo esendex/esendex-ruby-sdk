@@ -3,6 +3,9 @@ require 'rexml/document'
 
 module Esendex
   class Account
+    attr_accessor :account_reference, :username, :password
+    attr_reader :messages_remaining
+    
     def initialize(account_reference, username, password, connection = Nestful::Connection.new('https://api.esendex.com'))
       @account_reference = account_reference
       @username = username
@@ -13,35 +16,31 @@ module Esendex
       @connection.password = @password
       @connection.auth_type = :basic
       
-      response = @connection.get "/v0.1/accounts/#{@account_reference}"
-      doc = REXML::Document.new(response.body)
-      @messages_remaining = doc.elements["//accounts/account/messagesremaining"].text.to_i
+      begin
+        response = @connection.get "/v0.1/accounts/#{@account_reference}"
+        doc = REXML::Document.new(response.body)
+        @messages_remaining = doc.elements["//accounts/account/messagesremaining"].text.to_i
+      rescue Exception => exception
+        raise ApiErrorFactory.new.get_api_error(exception)
+      end
     end
     
-    def messages_remaining
-      @messages_remaining
+    def send_message(message)
+      self.send_messages([message])
     end
     
-    #<messages>
-    #  <accountreference>EX000000</accountreference>
-    #  <message>
-    #    <to>$TO</to>
-    #    <body>$BODY</body>
-    #  </message>
-    #</messages>
-    
-    def send(message)
-      messages = Document.new "<messages/>" 
-            
-      account_reference = Element.new("accountreference")
-      account_reference.text = @account_reference
-      messages.root.elements << account_reference
+    def send_messages(messages)
       
-      messages.root.elements << message.xml_node
-
-      response = @connection.post "/v1.0/messagedispatcher", messages.to_s
-      doc = REXML::Document.new(response.body)
-      doc.root.attributes["batchid"]
+      message_submission = MessageSubmission.new(@account_reference, messages)
+      
+      begin
+        response = @connection.post "/v1.0/messagedispatcher", message_submission.to_s
+        doc = REXML::Document.new(response.body)
+        doc.root.attributes["batchid"]
+      rescue Exception => exception
+        raise ApiErrorFactory.new.get_api_error(exception)
+      end
     end
+
   end
 end

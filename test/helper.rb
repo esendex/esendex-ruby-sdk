@@ -17,6 +17,5 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'esendex'
 
-
 class Test::Unit::TestCase
 end
