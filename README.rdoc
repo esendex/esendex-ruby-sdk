@@ -4,7 +4,9 @@ Gem for interacting with the Esendex API
 
 This is in very early stages of development
 
-== Sending Messages Now
+== Usage
+
+=== Sending Messages
 
 First instantiate an Account with your credentials
 	
@@ -18,11 +20,11 @@ Multiple messages are sent by passing an array of Messages to the send_messages 
 	
 	batch_id = account.send_messages([Message.new("07777111222", "Hello"), Message.new("07777111333", "Hi")])
 	
-== Errors
+== Building
 
+The plan is to publish this so you can perform gem install but if you can't wait then feel free to download 
 
-
-== Testing
+=== Testing
 
 	rake test
 	
@@ -32,9 +34,9 @@ will run unit tests, ie those in the root of the test folder
 
 will run integration tests, ie only those in the /test/integration folder
 
-== Contributing to esendex.gem
+== Contributing
 
-Best leave it to us for the moment, though if you can see we're really doing something wrong we'd appreciate a heads up (adam.bird@esendex.com)
+I'm knew to Ruby so please let me know if I'm going wrong, both in terms of errors in code as well as conventions
 
 == Copyright
 
