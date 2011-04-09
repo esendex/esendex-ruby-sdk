@@ -19,7 +19,7 @@ module Esendex
       begin
         response = @connection.get "/v0.1/accounts/#{@account_reference}"
         doc = REXML::Document.new(response.body)
-        @messages_remaining = doc.elements["//accounts/account/messagesremaining"].text.to_i
+        @messages_remaining = doc.elements["/accounts/account/messagesremaining"].text.to_i
       rescue Exception => exception
         raise ApiErrorFactory.new.get_api_error(exception)
       end
@@ -31,10 +31,10 @@ module Esendex
     
     def send_messages(messages)
       
-      message_submission = MessageSubmission.new(@account_reference, messages)
+      batch_submission = MessageBatchSubmission.new(@account_reference, messages)
       
       begin
-        response = @connection.post "/v1.0/messagedispatcher", message_submission.to_s
+        response = @connection.post "/v1.0/messagedispatcher", batch_submission.to_s
         doc = REXML::Document.new(response.body)
         doc.root.attributes["batchid"]
       rescue Exception => exception

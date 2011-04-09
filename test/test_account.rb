@@ -56,4 +56,8 @@ class TestAccount < Test::Unit::TestCase
     
     assert_equal batch_id, result
   end
+  
+  should "return populated inbox" do
+    
+  end
 end

@@ -14,7 +14,7 @@ include REXML
 #</messages>
 
 module Esendex
-  class MessageSubmission
+  class MessageBatchSubmission
     attr_accessor :account_reference, :messages, :send_at
     
     def initialize(account_reference, messages)
