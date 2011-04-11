@@ -11,6 +11,7 @@ GEM
     mocha (0.9.12)
     nestful (0.0.6)
       activesupport (>= 3.0.0.beta)
+    nokogiri (1.4.4)
     rake (0.8.7)
     rcov (0.9.9)
     shoulda (2.11.3)
@@ -24,5 +25,6 @@ DEPENDENCIES
   jeweler (~> 1.5.2)
   mocha (>= 0.9.12)
   nestful (>= 0.0.6)
+  nokogiri (>= 1.4.4)
   rcov
   shoulda

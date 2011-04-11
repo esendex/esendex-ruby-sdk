@@ -4,6 +4,7 @@ source "http://rubygems.org"
 #   gem "activesupport", ">= 2.3.5"
 gem "nestful", ">= 0.0.6"
 gem "i18n"
+gem "nokogiri", ">=1.4.4"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
