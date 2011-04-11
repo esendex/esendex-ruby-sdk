@@ -1,4 +1,5 @@
 require 'rexml/document'
+require 'nokogiri'
 include REXML
 
 #  <message>
@@ -16,20 +17,20 @@ module Esendex
     end
     
     def xml_node
-      doc = Document.new "<message/>" 
+      doc = Nokogiri::XML('<message/>')
                   
-      to = Element.new("to")
-      to.text = self.to
-      doc.root.elements << to
+      to = Nokogiri::XML::Node.new 'to', doc
+      to.content = self.to
+      doc.root.add_child(to)
       
-      body = Element.new("body")
-      body.text = self.body
-      doc.root.elements << body
+      body = Nokogiri::XML::Node.new 'body', doc
+      body.content = self.body
+      doc.root.add_child(body)
 
       if self.from
-        from = Element.new("from")
-        from.text = self.from
-        doc.root.elements << from
+        from = Nokogiri::XML::Node.new 'from', doc
+        from.content = self.from
+        doc.root.add_child(from)
       end
       
       doc.root

@@ -1,5 +1,4 @@
-require 'rexml/document'
-include REXML
+require 'nokogiri'
 
 #<messages>
 #  <accountreference>EX000000</accountreference>
@@ -24,23 +23,23 @@ module Esendex
     end
     
     def xml_node
-      xml_doc = Document.new "<messages/>" 
+      doc = Nokogiri::XML'<messages/>'
                   
-      account_reference = Element.new("accountreference")
-      account_reference.text = @account_reference
-      xml_doc.root.elements << account_reference
+      account_reference = Nokogiri::XML::Node.new 'accountreference', doc
+      account_reference.content = self.account_reference
+      doc.root.add_child(account_reference)
 
-      if @send_at
-        send_at = Element.new("sendat")
-        send_at.text = @send_at.strftime("%Y-%m-%dT%H:%M:%S")
-        xml_doc.root.elements << send_at
+      if self.send_at
+        send_at = Nokogiri::XML::Node.new 'sendat', doc
+        send_at.content = self.send_at.strftime("%Y-%m-%dT%H:%M:%S")
+        doc.root.add_child(send_at)
       end
       
       @messages.each do |message|
-        xml_doc.root.elements << message.xml_node
+        doc.root.add_child(message.xml_node)
       end
       
-      xml_doc.root
+      doc.root
     end
     
     def to_s
