@@ -9,14 +9,17 @@ class TestAccount < Test::Unit::TestCase
   end
   
   should "fail authorisation" do
-    code_challenge_account = Account.new("EX0068832", "bilge", "bilge")
+    begin
+      code_challenge_account = Account.new("EX0068832", "bilge", "bilge")
+    rescue Esendex::ForbiddenError
+    end
     
   end
   
   should "send a message" do
     code_challenge_account = Account.new("EX0068832", "codechallenge@esendex.com", "c0d3cha113ng3")
     
-    batch_id = code_challenge_account.send_message(Message.new("447815777555", "Hello from the Esendex Ruby Gem"))
+    batch_id = code_challenge_account.send_message(Message.new("447700900000", "Hello from the Esendex Ruby Gem"))
     
     assert batch_id
   end
