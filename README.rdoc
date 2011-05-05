@@ -2,9 +2,14 @@
 
 Gem for interacting with the Esendex API
 
-This is in very early stages of development
+This is in very early stages of development but supports sending one
 
 == Usage
+
+=== Setting up
+
+	gem install esendex
+
 
 === Sending Messages
 
@@ -36,7 +41,7 @@ will run integration tests, ie only those in the /test/integration folder
 
 == Contributing
 
-I'm knew to Ruby so please let me know if I'm going wrong, both in terms of errors in code as well as conventions
+Please fork as you see fit and let us know when you have something that should be part of the gem.
 
 == Copyright
 
