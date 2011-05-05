@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "esendex.gemspec",
     "lib/esendex.rb",
     "lib/esendex/account.rb",
     "lib/esendex/exceptions.rb",
