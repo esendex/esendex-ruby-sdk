@@ -10,7 +10,6 @@ This is in very early stages of development but supports sending one
 
 	gem install esendex
 
-
 === Sending Messages
 
 First instantiate an Account with your credentials
