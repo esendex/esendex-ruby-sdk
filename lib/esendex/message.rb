@@ -1,6 +1,4 @@
-require 'rexml/document'
 require 'nokogiri'
-include REXML
 
 #  <message>
 #    <to>$TO</to>
