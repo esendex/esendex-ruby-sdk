@@ -4,27 +4,33 @@ GEM
     activesupport (3.0.5)
     git (1.2.5)
     i18n (0.5.0)
-    jeweler (1.5.2)
-      bundler (~> 1.0.0)
+    jeweler (1.8.4)
+      bundler (~> 1.0)
       git (>= 1.2.5)
       rake
+      rdoc
+    json (1.7.6)
     mocha (0.9.12)
     nestful (0.0.6)
       activesupport (>= 3.0.0.beta)
-    nokogiri (1.4.4)
-    rake (0.8.7)
+    nokogiri (1.5.6)
+    nokogiri (1.5.6-x86-mingw32)
+    rake (10.0.3)
     rcov (0.9.9)
+    rdoc (3.12.1)
+      json (~> 1.4)
     shoulda (2.11.3)
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
-  bundler (~> 1.0.0)
+  bundler (~> 1.0)
   i18n
-  jeweler (~> 1.5.2)
+  jeweler (~> 1.8)
   mocha (>= 0.9.12)
   nestful (>= 0.0.6)
-  nokogiri (>= 1.4.4)
+  nokogiri (>= 1.4.4.1)
   rcov
   shoulda
