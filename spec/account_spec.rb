@@ -6,7 +6,18 @@ describe Account do
   let(:messages_remaining) { random_integer }
   let(:account_xml) {
     "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-      <accounts xmlns=\"http://api.esendex.com/ns/\">
+      <accounts>
+        <account id=\"2b4a326c-41de-4a57-a577-c7d742dc145c\" uri=\"http://api.esendex.com/v1.0/accounts/2b4a326c-41de-4a57-a577-c7d742dc145c\">
+          <balanceremaining domesticmessages=\"100\" internationalmessages=\"100\">$0.00</balanceremaining>
+          <reference>#{"not this one"}</reference>
+          <address>447786204254</address>
+          <type>Professional</type>
+          <messagesremaining>#{1234}</messagesremaining>
+          <expireson>2015-12-31T00:00:00</expireson>
+          <role>PowerUser</role>
+          <defaultdialcode>44</defaultdialcode>
+          <settings uri=\"http://api.esendex.com/v1.0/accounts/2b4a326c-41de-4a57-a577-c7d742dc145c/settings\" />
+        </account>
         <account id=\"2b4a326c-41de-4a57-a577-c7d742dc145c\" uri=\"http://api.esendex.com/v1.0/accounts/2b4a326c-41de-4a57-a577-c7d742dc145c\">
           <balanceremaining domesticmessages=\"100\" internationalmessages=\"100\">$0.00</balanceremaining>
           <reference>#{account_reference}</reference>

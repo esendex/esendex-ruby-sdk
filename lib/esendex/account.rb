@@ -16,7 +16,7 @@ module Esendex
     def messages_remaining
       response = api_connection.get "/v1.0/accounts/#{@reference}"
       doc = Nokogiri::XML(response.body)
-      doc.at_xpath('//api:accounts/api:account/api:messagesremaining', 'api' => Esendex::API_NAMESPACE).content.to_i
+      (doc.at_xpath("//accounts/account/reference[contains(.,'#{@reference}')]").parent > "messagesremaining").first.content.to_i
     end
 
     def send_message(args={})
