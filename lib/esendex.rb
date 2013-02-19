@@ -1,12 +1,14 @@
 module Esendex
   require 'nestful'
 
-  require 'esendex/version'
-  require 'esendex/account'
-  require 'esendex/message'
-  require 'esendex/exceptions'
-  require 'esendex/message_batch_submission'
+  require_relative 'esendex/version'
+  require_relative 'esendex/account'
+  require_relative 'esendex/message'
+  require_relative 'esendex/exceptions'
+  require_relative 'esendex/message_batch_submission'
   
+  require_relative 'esendex/railtie' if defined?(Rails)
+
   API_NAMESPACE = 'http://api.esendex.com/ns/'
 
   def self.configure

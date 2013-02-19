@@ -20,9 +20,9 @@ Before sending messages you need to configure the gem with your credentials. In 
 
 ```ruby
     Esendex.configure do |config|
-      config.username = "<your username>"
-      config.password = "<your password>"
-      config.account_reference = "<your account reference>"
+      config.username = "<username>"
+      config.password = "<password>"
+      config.account_reference = "<account reference>"
     end
 ```
 
@@ -32,13 +32,13 @@ You can also specify these using the environment variables `ESENDEX_USERNAME`, `
 
 ### Sending Messages
 
-First instantiate an Account with the reference. You can omit the reference if you've already configured one to use in the `Esendex.configure` step.
+First instantiate an Account with the reference. You can omit the reference if you've already configured one to use in the *Esendex.configure* step.
 
 ```ruby
     account = Account.new("EX123456")
 ```
 	
-then, call the send method on the account object with a message. The return value is a batch_id you can use to obtain the status of the messages you have sent.
+then, call the send method on the account object with a message. The return value is a *batch_id* you can use to obtain the status of the messages you have sent.
 
 ```ruby
     batch_id = account.send_message(Message.new("07777111222", "Saying hello to the world with the help of Esendex"))
@@ -50,9 +50,22 @@ Multiple messages are sent by passing an array of Messages to the send_messages 
     batch_id = account.send_messages([Message.new("07777111222", "Hello"), Message.new("07777111333", "Hi")])
 ```
 
-## Building
+### Testing Configuration
 
-The plan is to publish this so you can perform gem install but if you can't wait then feel free to download 
+The Esendex Gem ships with a couple of rake tasks that allow you to simply validate that all is well.
+
+    rake esendex:validate['<username>,'<password>','<account_reference>']
+
+This will confirm that the credentials passed can access the account.
+
+You can also send a message
+
+    rake esendex:send_message["<mobile_number>","<message_body>"]
+
+You will need to set the credentials as enviroment variables which can also be done inline
+
+    rake esendex:send_message["<mobile_number>","<message_body>"] ESENDEX_USERNAME=<username> ESENDEX_PASSWORD=<password> ESENDEX_ACCOUNT=<account_reference>
+
 
 ### Testing
 
