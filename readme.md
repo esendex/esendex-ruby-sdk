@@ -1,21 +1,27 @@
-# esendex.gem
+# Esendex
 
-Gem for interacting with the Esendex API
+Ruby Gem for interacting with the Esendex API
 
-This is in very early stages of development but supports sending one
+This is in very early stages of development but supports sending one or multiple messages using your account details
 
 ## Usage
 
 ### Setting up
 
-		gem install esendex
+From the command line
+
+    gem install esendex
+
+or in your project's Gemfile.
+
+    gem 'esendex'
 
 ### Sending Messages
 
 First instantiate an Account with your credentials
 
 ```ruby
-    account = Account.new("EX123456", "user@company.com", "yourpassword")
+    account = Account.new("EX123456", "user@company.com", "your_password")
 ```
 	
 then, call the send method on the account object with a message. The return value is a batch_id you can use to obtain the status of the messages you have sent.
