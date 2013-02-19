@@ -52,7 +52,7 @@ describe Account do
       api_connection.stub(:post) { mock('Response', :body => send_response_xml) }
     end
 
-    subject { account.send_message(Message.new("447815777555", "Hello from the Esendex Ruby Gem")) }
+    subject { account.send_message(to: "447815777555", body: "Hello from the Esendex Ruby Gem") }
 
     it "posts to the message dispatcher resource" do
       api_connection.should_receive(:post).with("/v1.0/messagedispatcher", anything)

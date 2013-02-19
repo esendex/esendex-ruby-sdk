@@ -19,8 +19,11 @@ module Esendex
       doc.at_xpath('//api:accounts/api:account/api:messagesremaining', 'api' => Esendex::API_NAMESPACE).content.to_i
     end
 
-    def send_message(message)
-      send_messages([message])
+    def send_message(args={})
+      raise ArgumentError.new(":to required") unless args[:to]
+      raise ArgumentError.new(":body required") unless args[:body]
+
+      send_messages([Message.new(args[:to], args[:body], args[:from])])
     end
     
     def send_messages(messages)

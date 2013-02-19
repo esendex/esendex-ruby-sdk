@@ -38,13 +38,13 @@ First instantiate an Account with the reference. You can omit the reference if y
 account = Account.new("EX123456")
 ```
 	
-then, call the send method on the account object with a message. The return value is a *batch_id* you can use to obtain the status of the messages you have sent.
+then, call the send method on the account object with a hash describing the message. The return value is a *batch_id* you can use to obtain the status of the messages you have sent.
 
 ```ruby
-batch_id = account.send_message(Message.new("07777111222", "Saying hello to the world with the help of Esendex"))
+batch_id = account.send_message( to: "07777111222", body: "Saying hello to the world with the help of Esendex")
 ```
 
-Multiple messages are sent by passing an array of Messages to the send_messages method
+Multiple messages are sent by passing an array of `Messages` to the send_messages method
 	
 ```ruby
 batch_id = account.send_messages([Message.new("07777111222", "Hello"), Message.new("07777111333", "Hi")])

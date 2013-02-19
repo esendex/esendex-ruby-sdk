@@ -17,10 +17,10 @@ namespace :esendex do
     end
   end
 
-  task :send_message, [:to, :body] do |t, args|
+  task :send_message, [:to, :body, :from] do |t, args|
     begin
       account = Account.new
-      batch_id = account.send_message(Message.new(args.to, args.body))
+      batch_id = account.send_message(args)
       puts "Message sent to #{args.to}. Batch ID: #{batch_id}"
     rescue => e
       puts "Failed to send message #{e.message}"
