@@ -38,7 +38,6 @@ Then, call the send method on the account object with a hash describing the mess
 ```ruby
 account = Account.new
 batch_id = account.send_message( to: "07777111222", body: "Saying hello to the world with the help of Esendex")
-
 ```
 You can specify a different account to the default by passing the reference in as an initialization argument
 
