@@ -15,7 +15,7 @@ module Esendex
       @connection.auth_type = :basic
       
       begin
-        response = @connection.get "/v0.1/accounts/#{@reference}"
+        response = @connection.get "/v1.0/accounts/#{@reference}"
         doc = Nokogiri::XML(response.body)
         @messages_remaining = doc.at_xpath('//api:accounts/api:account/api:messagesremaining', 'api' => Esendex::API_NAMESPACE).content.to_i
       rescue Exception => exception

@@ -42,7 +42,7 @@ describe Account do
       subject
     end
     it "should get the account resource" do
-      connection.should_receive(:get).with("/v0.1/accounts/#{account_reference}")
+      connection.should_receive(:get).with("/v1.0/accounts/#{account_reference}")
       subject
     end
     it "should set the messages remaining" do
