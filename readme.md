@@ -19,11 +19,11 @@ or in your project's Gemfile.
 Before sending messages you need to configure the gem with your credentials. In a Rails app this would typically go into a file called `esendex.rb` in the *config/initializers*.
 
 ```ruby
-    Esendex.configure do |config|
-      config.username = "<username>"
-      config.password = "<password>"
-      config.account_reference = "<account reference>"
-    end
+Esendex.configure do |config|
+  config.username = "<username>"
+  config.password = "<password>"
+  config.account_reference = "<account_reference>"
+end
 ```
 
 You can omit account reference and specify it when you instantiate an account object if you're using multiple accounts.
@@ -35,19 +35,19 @@ You can also specify these using the environment variables `ESENDEX_USERNAME`, `
 First instantiate an Account with the reference. You can omit the reference if you've already configured one to use in the *Esendex.configure* step.
 
 ```ruby
-    account = Account.new("EX123456")
+account = Account.new("EX123456")
 ```
 	
 then, call the send method on the account object with a message. The return value is a *batch_id* you can use to obtain the status of the messages you have sent.
 
 ```ruby
-    batch_id = account.send_message(Message.new("07777111222", "Saying hello to the world with the help of Esendex"))
+batch_id = account.send_message(Message.new("07777111222", "Saying hello to the world with the help of Esendex"))
 ```
 
 Multiple messages are sent by passing an array of Messages to the send_messages method
 	
 ```ruby
-    batch_id = account.send_messages([Message.new("07777111222", "Hello"), Message.new("07777111333", "Hi")])
+batch_id = account.send_messages([Message.new("07777111222", "Hello"), Message.new("07777111333", "Hi")])
 ```
 
 ### Testing Configuration
