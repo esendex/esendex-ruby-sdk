@@ -9,21 +9,21 @@ namespace :esendex do
         config.password = args.password
         config.account_reference = args.account_reference
       end
-      @account = Account.new
+      account = Account.new
+      messages_remaining = account.messages_remaining
+      puts "Valiated user #{Esendex.username} on account #{account.reference}. #{messages_remaining} messages remaining"
     rescue => e
       puts "Failed to validate credentials #{e.message}"
-      e.backtrace.each do |l| puts l end
     end
-    puts "Valiated user #{Esendex.username} on account #{@account.reference}. #{@account.messages_remaining} messages remaining"
   end
 
   task :send_message, [:to, :body] do |t, args|
     begin
       account = Account.new
-      @batch_id = account.send_message(Message.new(args.to, args.body))
+      batch_id = account.send_message(Message.new(args.to, args.body))
+      puts "Message sent to #{args.to}. Batch ID: #{batch_id}"
     rescue => e
       puts "Failed to send message #{e.message}"
     end
-    puts "Message sent to #{args.to}. Batch ID: #{@batch_id}"
   end
 end

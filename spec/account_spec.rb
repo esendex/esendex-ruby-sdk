@@ -1,9 +1,8 @@
 require 'spec_helper'
 
 describe Account do
-  let(:user) { random_email }
-  let(:password) { random_string }
   let(:account_reference) { random_string }
+  let(:account) { Account.new(account_reference) }
   let(:messages_remaining) { random_integer }
   let(:account_xml) {
     "<?xml version=\"1.0\" encoding=\"utf-8\"?>
@@ -21,41 +20,22 @@ describe Account do
         </account>
       </accounts>"
   }
-  let(:connection) { mock("Connection", 
-    :user= => true, :password= => true, :auth_type= => true, 
-    :get => mock('Response', :body => account_xml), :post => true )}
+  let(:api_connection) { mock("Connection", :get => mock('Response', :body => account_xml), :post => true )}
 
-  describe "#initialize" do
-    
-    subject { Account.new(account_reference, connection) }
+  before(:each) do
+    account.stub(:api_connection) { api_connection}
+  end
 
-    it "it sets the user on the connection" do
-      connection.should_receive(:user=).with(Esendex.username)
-      subject
-    end
-    it "it sets the password on the connection" do
-      connection.should_receive(:password=).with(Esendex.password)
-      subject
-    end
-    it "it sets auth type to basic" do
-      connection.should_receive(:auth_type=).with(:basic)
-      subject
-    end
+  describe "#messages_remaining" do
+
+    subject { account.messages_remaining }
+
     it "should get the account resource" do
-      connection.should_receive(:get).with("/v1.0/accounts/#{account_reference}")
+      api_connection.should_receive(:get).with("/v1.0/accounts/#{account_reference}")
       subject
     end
-    it "should set the messages remaining" do
-      subject.messages_remaining.should eq(messages_remaining)
-    end
-  
-    context "when 403 raised" do
-      before(:each) do
-        connection.stub(:get) { raise Nestful::ForbiddenAccess.new(nil) }
-      end
-      it "raises an Esendex::ForbiddenError" do
-        expect { subject }.to raise_error(Esendex::ForbiddenError)
-      end
+    it "should get the messages remaining from the documeny" do
+      subject.should eq(messages_remaining)
     end
   end
 
@@ -67,15 +47,15 @@ describe Account do
         <messageheader\ uri=\"http://api.esendex.com/v1.0/MessageHeaders/00000000-0000-0000-0000-000000000000\" id=\"00000000-0000-0000-0000-000000000000\" />
       </messageheaders>"
     }
-    let(:account) { Account.new(account_reference, connection) }
+
     before(:each) do
-      connection.stub(:post) { mock('Response', :body => send_response_xml) }
+      api_connection.stub(:post) { mock('Response', :body => send_response_xml) }
     end
 
     subject { account.send_message(Message.new("447815777555", "Hello from the Esendex Ruby Gem")) }
 
     it "posts to the message dispatcher resource" do
-      connection.should_receive(:post).with("/v1.0/messagedispatcher", anything)
+      api_connection.should_receive(:post).with("/v1.0/messagedispatcher", anything)
       subject
     end
     it "should return the batch_id in the result" do
