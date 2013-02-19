@@ -16,12 +16,26 @@ or in your project's Gemfile.
 
     gem 'esendex'
 
-### Sending Messages
-
-First instantiate an Account with your credentials
+Before sending messages you need to configure the gem with your credentials. In a Rails app this would typically go into a file called `esendex.rb` in the *config/initializers*.
 
 ```ruby
-    account = Account.new("EX123456", "user@company.com", "your_password")
+    Esendex.configure do |config|
+      config.username = "<your username>"
+      config.password = "<your password>"
+      config.account_reference = "<your account reference>"
+    end
+```
+
+You can omit account reference and specify it when you instantiate an account object if you're using multiple accounts.
+
+You can also specify these using the environment variables `ESENDEX_USERNAME`, `ESENDEX_PASSWORD` and `ESENDEX_ACCOUNT`.
+
+### Sending Messages
+
+First instantiate an Account with the reference. You can omit the reference if you've already configured one to use in the `Esendex.configure` step.
+
+```ruby
+    account = Account.new("EX123456")
 ```
 	
 then, call the send method on the account object with a message. The return value is a batch_id you can use to obtain the status of the messages you have sent.

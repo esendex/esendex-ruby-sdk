@@ -6,14 +6,12 @@ module Esendex
     attr_accessor :account_reference, :username, :password
     attr_reader :messages_remaining
     
-    def initialize(account_reference, username, password, connection = Nestful::Connection.new('https://api.esendex.com'))
+    def initialize(account_reference = Esendex.account_reference, connection = Nestful::Connection.new('https://api.esendex.com'))
       @account_reference = account_reference
-      @username = username
-      @password = password
 
       @connection = connection
-      @connection.user = @username
-      @connection.password = @password
+      @connection.user = Esendex.username
+      @connection.password = Esendex.password
       @connection.auth_type = :basic
       
       begin

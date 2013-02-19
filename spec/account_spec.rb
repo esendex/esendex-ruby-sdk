@@ -27,14 +27,14 @@ describe Account do
 
   describe "#initialize" do
     
-    subject { Account.new(account_reference, user, password, connection) }
+    subject { Account.new(account_reference, connection) }
 
     it "it sets the user on the connection" do
-      connection.should_receive(:user=).with(user)
+      connection.should_receive(:user=).with(Esendex.username)
       subject
     end
     it "it sets the passwrd on the connection" do
-      connection.should_receive(:password=).with(password)
+      connection.should_receive(:password=).with(Esendex.password)
       subject
     end
     it "it sets auth type to basic" do
@@ -67,7 +67,7 @@ describe Account do
         <messageheader\ uri=\"http://api.esendex.com/v1.0/MessageHeaders/00000000-0000-0000-0000-000000000000\" id=\"00000000-0000-0000-0000-000000000000\" />
       </messageheaders>"
     }
-    let(:account) { Account.new(account_reference, user, password, connection) }
+    let(:account) { Account.new(account_reference, connection) }
     before(:each) do
       connection.stub(:post) { mock('Response', :body => send_response_xml) }
     end
