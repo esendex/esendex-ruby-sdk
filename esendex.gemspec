@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
 
   gem.files         = Dir["lib/**/*"]
   gem.test_files    = Dir["spec/**/*"]
-  gem.extra_rdoc_files = ["LICENSE.txt", "README.rdoc"]
+  gem.extra_rdoc_files = ["LICENSE.txt", "readme.md"]
   gem.name          = "esendex"
   gem.require_paths = ["lib"]
   gem.version       = Esendex::VERSION
