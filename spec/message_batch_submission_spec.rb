@@ -4,14 +4,23 @@ describe MessageBatchSubmission do
   let(:account) { "EX1234556" }
 
   describe "#xml_node" do
-    let(:message_one) { Message.new("0777111222", "I'm sending this in the future") }
-    let(:message_two) { Message.new("0777111333", "I'm sending this in the future again") }
-    let(:message_batch) { MessageBatchSubmission.new(account, [message_one, message_two]) }
+    let(:messages) { [ Message.new(random_mobile, random_string), Message.new(random_mobile, random_string)] }
+    let(:message_batch) { MessageBatchSubmission.new(account, messages) }
 
     subject { message_batch.xml_node }
 
-    it "should create two message nodes" do
-      subject.xpath('//messages/message').count.should eq(2)
+    it "should create message nodes" do
+      subject.xpath('//messages/message').count.should eq(messages.count)
+    end
+    it "should set the message to" do
+      (0..1).each do |i|
+        subject.xpath('//messages/message/to')[i].content.should eq(messages[i].to)
+      end
+    end
+    it "should set the message body" do
+      (0..1).each do |i|
+        subject.xpath('//messages/message/body')[i].content.should eq(messages[i].body)
+      end
     end
     context "when send_at set" do
       let(:target_time) { Time.local(2011, 4, 7, 15, 0, 0) }

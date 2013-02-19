@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Message do
   describe "#xml_node" do
-    let(:to) { "07777111333" }
-    let(:body) { "Hello World" }
+    let(:to) { random_mobile }
+    let(:body) { random_string }
     let(:message) { Esendex::Message.new(to, body) }
 
     subject { message.xml_node }
@@ -16,7 +16,7 @@ describe Message do
     end
 
     context "when from set" do
-      let(:from) { "BilgeInc" }
+      let(:from) { random_string }
 
       before(:each) do
         message.from = from

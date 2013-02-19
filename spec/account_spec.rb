@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Account do
-  let(:user) { "codechallenge@esendex.com" }
-  let(:password) { "c0d3cha113ng3" }
-  let(:account_reference) { "EX0068832" }
-  let(:messages_remaining) { 100 }
+  let(:user) { random_email }
+  let(:password) { random_string }
+  let(:account_reference) { random_string }
+  let(:messages_remaining) { random_integer }
   let(:account_xml) {
     "<?xml version=\"1.0\" encoding=\"utf-8\"?>
       <accounts xmlns=\"http://api.esendex.com/ns/\">
@@ -33,7 +33,7 @@ describe Account do
       connection.should_receive(:user=).with(Esendex.username)
       subject
     end
-    it "it sets the passwrd on the connection" do
+    it "it sets the password on the connection" do
       connection.should_receive(:password=).with(Esendex.password)
       subject
     end
@@ -60,7 +60,7 @@ describe Account do
   end
 
   describe "#send_message" do
-    let(:batch_id) { "2b4a326c-41de-4a57-a577-c7d742dc145c" }
+    let(:batch_id) { random_string }
     let(:send_response_xml) {
       "<?xml version=\"1.0\" encoding=\"utf-8\"?> 
       <messageheaders batchid=\"#{batch_id}\" xmlns=\"http://api.esendex.com/ns/\">
