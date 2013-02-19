@@ -33,15 +33,17 @@ You can also specify these using the environment variables `ESENDEX_USERNAME`, `
 ### Sending Messages
 
 First instantiate an Account with the reference. You can omit the reference if you've already configured one to use in the *Esendex.configure* step.
+Then, call the send method on the account object with a hash describing the message. The return value is a *batch_id* you can use to obtain the status of the messages you have sent.
 
 ```ruby
-account = Account.new("EX123456")
-```
-	
-then, call the send method on the account object with a hash describing the message. The return value is a *batch_id* you can use to obtain the status of the messages you have sent.
-
-```ruby
+account = Account.new
 batch_id = account.send_message( to: "07777111222", body: "Saying hello to the world with the help of Esendex")
+
+```
+You can specify a different account to the default by passing the reference in as an initialization argument
+
+```ruby
+account = Account.new('EX23847')
 ```
 
 Multiple messages are sent by passing an array of `Messages` to the send_messages method
