@@ -11,7 +11,7 @@ namespace :esendex do
       end
       account = Account.new
       messages_remaining = account.messages_remaining
-      puts "Valiated user #{Esendex.username} on account #{account.reference}. #{messages_remaining} messages remaining"
+      puts "Validated user #{Esendex.username} on account #{account.reference}. #{messages_remaining} messages remaining"
     rescue => e
       puts "Failed to validate credentials #{e.message}"
     end

@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem 'rake'
-gem "nestful", ">= 0.0.6"
+gem "nestful", ">=0.0.6"
 gem "i18n"
 gem "nokogiri", ">=1.4.4.1"
 
