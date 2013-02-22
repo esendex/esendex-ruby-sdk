@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email        = ["support@esendex.com"]
   gem.description  = "Send SMS from you application using the Esendex API"
   gem.summary      = "Gem for interacting with the Esendex API"
-  gem.homepage     = "http://www.esendex.com"
+  gem.homepage     = "http://developers.esendex.com"
 
   gem.files         = Dir["lib/**/*","tasks/**/*"]
   gem.test_files    = Dir["spec/**/*"]
