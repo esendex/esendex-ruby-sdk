@@ -6,13 +6,13 @@ describe Account do
   let(:messages_remaining) { random_integer }
   let(:account_xml) {
     "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-      <accounts>
+      <accounts xmlns=\"http://api.esendex.com/ns/\">
         <account id=\"2b4a326c-41de-4a57-a577-c7d742dc145c\" uri=\"http://api.esendex.com/v1.0/accounts/2b4a326c-41de-4a57-a577-c7d742dc145c\">
           <balanceremaining domesticmessages=\"100\" internationalmessages=\"100\">$0.00</balanceremaining>
-          <reference>#{"not this one"}</reference>
+          <reference>not this one</reference>
           <address>447786204254</address>
           <type>Professional</type>
-          <messagesremaining>#{1234}</messagesremaining>
+          <messagesremaining>1234</messagesremaining>
           <expireson>2015-12-31T00:00:00</expireson>
           <role>PowerUser</role>
           <defaultdialcode>44</defaultdialcode>
@@ -34,7 +34,7 @@ describe Account do
   let(:api_connection) { mock("Connection", :get => mock('Response', :body => account_xml), :post => true )}
 
   before(:each) do
-    account.stub(:api_connection) { api_connection}
+    account.stub(:api_connection) { api_connection }
   end
 
   describe "#messages_remaining" do
@@ -42,11 +42,21 @@ describe Account do
     subject { account.messages_remaining }
 
     it "should get the account resource" do
-      api_connection.should_receive(:get).with("/v1.0/accounts/#{account_reference}")
+      api_connection.should_receive(:get).with("/v1.0/accounts")
       subject
     end
-    it "should get the messages remaining from the documeny" do
+    it "should get the messages remaining from the document" do
       subject.should eq(messages_remaining)
+    end
+  end
+  
+  describe "#messages_remaining_invalid_reference" do
+    before(:each) do
+      account.reference = "invalid"
+	end
+  
+    it "should raise AccountReferenceError" do
+      expect { account.messages_remaining }.to raise_error(AccountReferenceError)
     end
   end
 

@@ -1,4 +1,3 @@
-require 'nestful'
 require 'nokogiri'
 
 module Esendex
@@ -14,9 +13,11 @@ module Esendex
     end
 
     def messages_remaining
-      response = api_connection.get "/v1.0/accounts/#{@reference}"
+      response = api_connection.get "/v1.0/accounts"
       doc = Nokogiri::XML(response.body)
-      (doc.at_xpath("//accounts/account/reference[contains(.,'#{@reference}')]").parent > "messagesremaining").first.content.to_i
+	  node = doc.at_xpath("//api:account[api:reference='#{@reference}']/api:messagesremaining", 'api' => Esendex::API_NAMESPACE)
+	  raise AccountReferenceError.new() if node.nil?
+	  node.content.to_i
     end
 
     def send_message(args={})

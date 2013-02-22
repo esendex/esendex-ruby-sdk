@@ -20,4 +20,7 @@ module Esendex
   
   class ForbiddenError < ApiError
   end
+  
+  class AccountReferenceError < ApiError
+  end
 end
