@@ -1,6 +1,4 @@
-require 'rexml/document'
 require 'nokogiri'
-include REXML
 
 #  <message>
 #    <to>$TO</to>
@@ -14,6 +12,7 @@ module Esendex
     def initialize(to, body, from=nil)
       @to = to
       @body = body
+      @from = from
     end
     
     def xml_node
