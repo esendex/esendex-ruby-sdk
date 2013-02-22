@@ -16,13 +16,13 @@ class ApiConnection
   def get(url)
     @connection.get url, default_headers
   rescue => e
-    raise ApiErrorFactory.new.get_api_error(e)
+    raise Esendex::ApiErrorFactory.new.get_api_error(e)
   end
 
   def post(url, body)
     @connection.post url, body, default_headers
   rescue => e
-    raise ApiErrorFactory.new.get_api_error(e)
+    raise Esendex::ApiErrorFactory.new.get_api_error(e)
   end
 
 end
