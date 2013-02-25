@@ -1,2 +1,2 @@
 require 'rake'
-load "#{Rake.application.original_dir}/tasks/esendex.rake"
+load "lib/tasks/esendex.rake"
