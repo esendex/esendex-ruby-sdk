@@ -1,4 +1,4 @@
-require_relative '../lib/esendex'
+require_relative '../esendex'
 include Esendex
 
 namespace :esendex do
