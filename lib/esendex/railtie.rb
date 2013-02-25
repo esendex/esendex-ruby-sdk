@@ -1,7 +1,7 @@
 require 'esendex'
 require 'rails'
 
-module EsendexPlugin
+module Esendex
   class Railtie < Rails::Railtie
     railtie_name :esendex
 

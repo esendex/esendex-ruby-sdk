@@ -1,7 +1,8 @@
-require_relative '../lib/esendex'
+require_relative '../esendex'
 include Esendex
 
 namespace :esendex do
+  desc "Validates whether credentials are correct and returns message credit balance"
   task :validate, [:username, :password, :account_reference] do |t, args|
     begin
       Esendex.configure do |config|
@@ -17,6 +18,7 @@ namespace :esendex do
     end
   end
 
+  desc "Sends a message using the credentials specifed in the environment"
   task :send_message, [:to, :body, :from] do |t, args|
     begin
       account = Account.new
