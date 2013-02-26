@@ -4,7 +4,9 @@ module Esendex
 
     def create
       process_notification :inbound_message, request.body
-      render text: ""
+      render text: "OK"
+    rescue => e
+      render_error e
     end
   end
 end

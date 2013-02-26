@@ -19,6 +19,21 @@ module Esendex
         logger.info "Received #{type} push notification but no handler configured" if defined?(logger)
       end
 
-   end
+    end
+
+    def render_error(error)
+      lines = []
+      lines << "Path: #{request.path}"
+      request.body.rewind
+      lines << "Body:\r\n#{request.body.read}"
+      lines << "Error: #{error.class.name}"
+      lines << "Message: #{error.message}"
+      if Esendex.suppress_back_trace
+        lines << "[backtrace suppressed]"
+      else
+        lines << error.backtrace.join("\r\n")
+      end
+      render text: lines.join("\r\n"), status: 500
+    end
   end
 end

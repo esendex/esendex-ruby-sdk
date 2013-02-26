@@ -107,6 +107,8 @@ Esendex.message_delivered_event_handler = lambda { |notification|
 }
 ```
 
+Please be kind to us and don't perform anything potentially long running in this call back as this will 
+
 The handlers are defined as follows
 
 | End Point| Config Setting | Notification Class | Developer Tools |
@@ -114,6 +116,21 @@ The handlers are defined as follows
 | /esendex/inbound_messages | Esendex.inbound_message_handler | InboundMessage | SMS received |
 | /esendex/message_delivered_events | Esendex.message_delivered_event_handler | MessageDeliveredEvent | SMS delivered |
 | /esendex/message_failed_events | Esendex.message_failed_event_handler | MessageDeliveredEvent | SMS failed |
+
+#### Errors
+
+When errors occur in the handler lambdas then the controller returns a `500` status along with some error information back to the the Esendex Platform. This information is emailed to the technical notifications contact for the account.
+
+The notification then enters the retry cycle. 
+
+Included by default is the backtrace for the error to assist in identifying the issue. You can suppress backtrace with the following config option.
+
+```ruby
+Esendex.configure do |config|
+  config.suppress_backtrace = true
+end
+```
+
 
 ## Contributing
 

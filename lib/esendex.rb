@@ -40,6 +40,9 @@ module Esendex
     # lambdas for handling push notifications
     attr_accessor :message_delivered_event_handler, :message_failed_event_handler, :inbound_message_handler
 
+    # behaviour config
+    attr_accessor :suppress_back_trace
+    
     def account_reference
       @account_reference ||= ENV['ESENDEX_ACCOUNT']
     end
