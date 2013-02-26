@@ -29,18 +29,8 @@ module Esendex
   #     config.account_reference = 'account reference'
   #   end
   # 
-  # Will raise StandardError if username or password not set either explicitly or
-  # via environment variables
   def self.configure
     yield self if block_given?
-
-    unless Esendex.username
-      raise StandardError.new("username required. Either set Esendex.username or set environment variable ESENDEX_USERNAME")
-    end
-
-    unless Esendex.password
-      raise StandardError.new("password required. Either set Esendex.password or set environment variable ESENDEX_PASSWORD")
-    end
   end
 
   class << self

@@ -12,6 +12,7 @@ require 'nokogiri'
 module Esendex
   class MessageDeliveredEvent
     include HashSerialisation
+    
     attr_accessor :id, :message_id, :account_id, :occurred_at
 
     def self.from_xml(source)
