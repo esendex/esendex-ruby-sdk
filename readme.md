@@ -115,7 +115,7 @@ The handlers are defined as follows
 | -------- | -------------- | ------------------ | --------------- |
 | /esendex/inbound_messages | Esendex.inbound_message_handler | InboundMessage | SMS received |
 | /esendex/message_delivered_events | Esendex.message_delivered_event_handler | MessageDeliveredEvent | SMS delivered |
-| /esendex/message_failed_events | Esendex.message_failed_event_handler | MessageDeliveredEvent | SMS failed |
+| /esendex/message_failed_events | Esendex.message_failed_event_handler | MessageFailedEvent | SMS failed |
 
 #### Errors
 

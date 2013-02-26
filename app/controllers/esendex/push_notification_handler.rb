@@ -25,14 +25,17 @@ module Esendex
       lines = []
       lines << "Path: #{request.path}"
       request.body.rewind
-      lines << "Body:\r\n#{request.body.read}"
-      lines << "Error: #{error.class.name}"
-      lines << "Message: #{error.message}"
+      lines << "Notification XML:\r\n#{request.body.read}"
+      lines << "Error: #{error.class.name} #{error.message}"
       if Esendex.suppress_back_trace
         lines << "[backtrace suppressed]"
       else
         lines << error.backtrace.join("\r\n")
       end
+      lines << "---"
+      lines << "Ruby #{RUBY_VERSION}"
+      lines << "Rails #{Rails::VERSION::STRING}"
+      lines << Esendex.user_agent
       render text: lines.join("\r\n"), status: 500
     end
   end
