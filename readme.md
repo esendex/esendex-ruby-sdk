@@ -68,15 +68,23 @@ You will need to set the credentials as enviroment variables which can also be d
     rake esendex:send_message["<mobile_number>","<message_body>"] ESENDEX_USERNAME=<username> ESENDEX_PASSWORD=<password> ESENDEX_ACCOUNT=<account_reference>
 
 
-### Testing
+## Rails Engine
 
-		bundle exec rspec
-	
-will run specs, ie those in the root of the test folder
+In order to simplify receipt of push notifications, the gem now ships with mountable controllers to receive `MessageDeliveredEvent`, `MessageFailedEvent` and `InboundMessage` notifications from the Esendex Platform.
+
 
 ## Contributing
 
 Please fork as you see fit and let us know when you have something that should be part of the gem.
+
+### Testing
+
+    bundle exec rspec
+  
+will run specs, ie those in the root of the test folder
+
+The spec folder contains a dummy Rails project for testing the Rails Engine.
+
 
 ## Copyright
 
