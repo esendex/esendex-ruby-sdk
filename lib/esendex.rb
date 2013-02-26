@@ -5,6 +5,7 @@ module Esendex
   require_relative 'esendex/message'
   require_relative 'esendex/exceptions'
   require_relative 'esendex/message_batch_submission'
+  require_relative 'esendex/message_delivered_event'
   
   if defined?(Rails)
     require_relative 'esendex/railtie' 
@@ -28,7 +29,11 @@ module Esendex
   end
 
   class << self
+    # credentials for authentication
     attr_writer :account_reference, :username, :password
+
+    # lambdas for handling push notifications
+    attr_accessor :message_delivered_event_handler
 
     def account_reference
       @account_reference ||= ENV['ESENDEX_ACCOUNT']
