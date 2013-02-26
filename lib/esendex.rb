@@ -2,6 +2,7 @@ module Esendex
   require_relative 'esendex/version'
   require_relative 'esendex/exceptions'
   require_relative 'esendex/api_connection'
+  require_relative 'esendex/hash_serialisation'
   
   require_relative 'esendex/account'
   require_relative 'esendex/inbound_message'

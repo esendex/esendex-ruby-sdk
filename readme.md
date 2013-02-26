@@ -68,10 +68,52 @@ You will need to set the credentials as enviroment variables which can also be d
     rake esendex:send_message["<mobile_number>","<message_body>"] ESENDEX_USERNAME=<username> ESENDEX_PASSWORD=<password> ESENDEX_ACCOUNT=<account_reference>
 
 
-## Rails Engine
+## Push Notifications
 
-In order to simplify receipt of push notifications, the gem now ships with mountable controllers to receive `MessageDeliveredEvent`, `MessageFailedEvent` and `InboundMessage` notifications from the Esendex Platform.
+You can configure your account to send Push Notifications when the following occur
 
++ MessageDeliveredEvent
++ MessageFailedEvent
++ InboundMessage
+
+While it is possible to poll our API to check the status of outbound messages and to check for new inbound messages, the recommended approach is to allow the Esendex Platform to notify your system when these events occur, if possible.
+
+To do this you need to setup web accessible end points to accept the notifications. These end points are configured in [Esendex Developer Tools](https://www.esendex.com/developertools).
+
+Classes are provided in the gem for deserialising `MessageDeliveredEvent`, `MessageFailedEvent` and `InboundMessage` all expose a `.from_xml` method to support this.
+
+```ruby
+InboundMessage.from_xml request.body
+```
+
+### Rails 3
+
+In order to simplify receipt of push notifications for Rails 3 users, the gem ships with mountable Rails controllers to handle the receipt of these notifications.
+
+To mount the end points, add this to `routes.rb`
+
+```ruby
+RailsApp::Application.routes.draw do
+  ...
+  mount Esendex::Engine => "/esendex"
+end
+```
+
+To configure the behaviour in response to a notification, you need to configure a lambda to use.
+
+```ruby
+Esendex.message_delivered_event_handler = lambda { |notification| 
+  # process the notification
+}
+```
+
+The handlers are defined as follows
+
+| End Point| Config Setting | Notification Class | Developer Tools |
+| -------- | -------------- | ------------------ | --------------- |
+| /esendex/inbound_messages | Esendex.inbound_message_handler | InboundMessage | SMS received |
+| /esendex/message_delivered_events | Esendex.message_delivered_event_handler | MessageDeliveredEvent | SMS delivered |
+| /esendex/message_failed_events | Esendex.message_failed_event_handler | MessageDeliveredEvent | SMS failed |
 
 ## Contributing
 
