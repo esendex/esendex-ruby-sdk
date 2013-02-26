@@ -15,7 +15,9 @@ module Esendex
         .select { |m| m =~ /\w\=$/ }
         .select { |m| respond_to?(m.to_s.chop) }
         .collect { |m| m.to_s.chop.to_sym }
-        .each do |item| attrs[item[0]] = item[1] end
+        .each do |method| 
+          attrs[method] = send(method)
+        end
       attrs
     end
   end
