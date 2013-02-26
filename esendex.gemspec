@@ -8,12 +8,12 @@ Gem::Specification.new do |gem|
   gem.summary      = "Gem for interacting with the Esendex API"
   gem.homepage     = "http://developers.esendex.com"
 
-  gem.files         = Dir["lib/**/*","tasks/**/*"]
+  gem.files         = Dir["{app,config,lib}/**/*"]
   gem.test_files    = Dir["spec/**/*"]
   gem.extra_rdoc_files = ["LICENSE.txt", "readme.md"]
   gem.name          = "esendex"
   gem.require_paths = ["lib"]
   gem.version       = Esendex::VERSION
-  gem.add_runtime_dependency "nestful", [">= 0.0.6"]
+  gem.add_runtime_dependency "nestful", [">= 0.0.8"]
   gem.add_runtime_dependency "nokogiri", [">= 1.4.4.1"]
 end

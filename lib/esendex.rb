@@ -6,7 +6,10 @@ module Esendex
   require_relative 'esendex/exceptions'
   require_relative 'esendex/message_batch_submission'
   
-  require_relative 'esendex/railtie' if defined?(Rails)
+  if defined?(Rails)
+    require_relative 'esendex/railtie' 
+    require_relative 'esendex/engine'
+  end
 
   API_NAMESPACE = 'http://api.esendex.com/ns/'
   API_HOST = 'https://api.esendex.com'
