@@ -20,11 +20,20 @@ module Esendex
       :message_delivered_event => { 
         :class => MessageDeliveredEvent, 
         :source => "<MessageDelivered>
-         <Id>#{@random_string}</Id>
+         <Id>#{random_string}</Id>
          <MessageId>#{random_string}</MessageId>
          <AccountId>#{random_string}</AccountId>
          <OccurredAt>#{random_time.strftime("%Y-%m-%dT%H:%M:%S")}</OccurredAt>
         </MessageDelivered>" 
+      },
+      :message_failed_event => {
+        :class => MessageFailedEvent,
+        :source => "<MessageFailed>
+         <Id>#{random_string}</Id>
+         <MessageId>#{random_string}</MessageId>
+         <AccountId>#{random_string}</AccountId>
+         <OccurredAt>#{random_time.strftime("%Y-%m-%dT%H:%M:%S")}</OccurredAt>
+        </MessageFailed>" 
       }
     }
     @notifications.each_pair do |notification_type, config|

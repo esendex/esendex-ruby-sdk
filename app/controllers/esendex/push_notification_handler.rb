@@ -1,6 +1,14 @@
+# Common behaviour for all push notification controllers
+# 
 module Esendex
   module PushNotificationHandler
 
+    # Used by controllers to handle incoming push notification
+    # 
+    # type        - Symbol indicating type
+    # source      - String request body of the notification
+    # 
+    # Returns nothing
     def process_notification(type, source)
        
       if handler = Esendex.send("#{type}_handler")

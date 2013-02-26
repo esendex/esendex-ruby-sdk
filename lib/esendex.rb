@@ -6,7 +6,9 @@ module Esendex
   require_relative 'esendex/exceptions'
   require_relative 'esendex/message_batch_submission'
   require_relative 'esendex/message_delivered_event'
+  require_relative 'esendex/message_failed_event'
   
+  # Load Rails extensions if Rails present
   if defined?(Rails)
     require_relative 'esendex/railtie' 
     require_relative 'esendex/engine'
@@ -16,6 +18,16 @@ module Esendex
   API_HOST = 'https://api.esendex.com'
   API_VERSION = 'v1.0'
 
+  # Public - used to configure the gem prior to use
+  # 
+  #   Esendex.configure do |config|
+  #     config.username = 'username'
+  #     config.password = 'password'
+  #     config.account_reference = 'account reference'
+  #   end
+  # 
+  # Will raise StandardError if username or password not set either explicitly or
+  # via environment variables
   def self.configure
     yield self if block_given?
 
@@ -33,7 +45,7 @@ module Esendex
     attr_writer :account_reference, :username, :password
 
     # lambdas for handling push notifications
-    attr_accessor :message_delivered_event_handler
+    attr_accessor :message_delivered_event_handler, :message_failed_event_handler
 
     def account_reference
       @account_reference ||= ENV['ESENDEX_ACCOUNT']
