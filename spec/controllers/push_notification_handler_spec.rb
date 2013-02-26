@@ -34,6 +34,17 @@ module Esendex
          <AccountId>#{random_string}</AccountId>
          <OccurredAt>#{random_time.strftime("%Y-%m-%dT%H:%M:%S")}</OccurredAt>
         </MessageFailed>" 
+      },
+      :inbound_message => {
+        :class => InboundMessage,
+        :source => "<InboundMessage>
+         <Id>#{random_string}</Id>
+         <MessageId>#{random_string}</MessageId>
+         <AccountId>#{random_string}</AccountId>
+         <MessageText>#{random_string}</MessageText>
+         <From>#{random_mobile}</From>
+         <To>#{random_mobile}</To>
+        </InboundMessage>"
       }
     }
     @notifications.each_pair do |notification_type, config|
