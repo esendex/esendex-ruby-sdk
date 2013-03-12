@@ -27,7 +27,7 @@ module Esendex
       request.body.rewind
       lines << "Notification XML:\r\n#{request.body.read}"
       lines << "Error: #{error.class.name} #{error.message}"
-      if Esendex.suppress_back_trace
+      if Esendex.suppress_error_backtrace
         lines << "[backtrace suppressed]"
       else
         lines << error.backtrace.join("\r\n")

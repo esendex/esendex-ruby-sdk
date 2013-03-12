@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    esendex (0.2.3)
+    esendex (0.3.0)
       nestful (>= 0.0.7)
       nokogiri (>= 1.4.4.1)
 

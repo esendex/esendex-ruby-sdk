@@ -41,7 +41,7 @@ module Esendex
     attr_accessor :message_delivered_event_handler, :message_failed_event_handler, :inbound_message_handler
 
     # behaviour config
-    attr_accessor :suppress_back_trace
+    attr_accessor :suppress_error_backtrace
     
     def account_reference
       @account_reference ||= ENV['ESENDEX_ACCOUNT']
