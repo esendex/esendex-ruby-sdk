@@ -9,7 +9,7 @@ require 'rspec/rails'
 
 Rails.backtrace_cleaner.remove_silencers!
 
-require "#{Rake.application.original_dir}/lib/esendex"
+require_relative "../lib/esendex"
 include Esendex
 
 RSpec.configure do |config|
