@@ -1,4 +1,4 @@
-# Esendex
+# Esendex Ruby SDK
 
 Ruby Gem for interacting with the Esendex API
 
