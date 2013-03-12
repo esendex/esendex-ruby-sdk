@@ -172,5 +172,5 @@ Customers with more pressing issues should contact our support teams via the usu
 
 ## Copyright
 
-Copyright (c) 2011-13 Esendex Ltd. See LICENSE.txt for further details.
+Copyright (c) 2011-13 Esendex Ltd. See licence.txt for further details.
 
