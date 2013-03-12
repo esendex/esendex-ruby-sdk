@@ -3,7 +3,6 @@ source "http://rubygems.org"
 gemspec
 
 group :development, :test do
-  gem 'psych'
   gem 'rails', "~> 3.2.12"
   gem 'rake'
   gem 'rspec'
