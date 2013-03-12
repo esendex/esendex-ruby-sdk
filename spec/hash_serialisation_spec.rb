@@ -1,0 +1,53 @@
+require 'spec_helper'
+
+module Esendex
+  class DummyHashSerialisation
+    include HashSerialisation
+
+    attr_accessor :name, :time, :notes
+
+  end
+
+  describe HashSerialisation do
+    let(:name) { random_string }
+    let(:time) { random_time }
+    let(:notes) { random_string }
+
+    before(:each) do
+      @attrs = { name: name, time: time, notes: notes } 
+    end
+
+    describe "#initialize" do
+
+      subject { DummyHashSerialisation.new @attrs }
+
+      it "sets the name" do
+        subject.name.should eq(name)
+      end
+      it "sets the time" do
+        subject.time.should eq(time)
+      end
+      it "sets the notes" do
+        subject.notes.should eq(notes)
+      end
+
+      context "when invalid attribute passed" do
+        before(:each) do
+          @attrs[random_string] = random_string
+        end
+        it "should raise and argument error" do
+          expect { subject }.to raise_error(ArgumentError)
+        end
+      end
+    end
+
+    describe "#to_hash" do
+      subject { DummyHashSerialisation.new(@attrs).to_hash }
+
+      it "should match the init hash" do
+        subject.should eq(@attrs)
+      end
+    end
+
+  end
+end

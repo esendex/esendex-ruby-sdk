@@ -3,8 +3,10 @@ source "http://rubygems.org"
 gemspec
 
 group :development, :test do
+  gem 'rails', "~> 3.2.12"
   gem 'rake'
   gem 'rspec'
+  gem 'rspec-rails'
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false
   gem 'guard'
