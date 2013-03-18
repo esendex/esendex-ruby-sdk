@@ -1,8 +1,8 @@
 # Esendex Ruby SDK
 
-Ruby Gem for interacting with the Esendex API
+Ruby Gem for interacting with the Esendex API. Full docs for the API can be found at [developers.esendex.com](http://developers.esendex.com).
 
-This is in early stages of development but supports the primary requirements around sending and receiving messages.
+This is in early stages of development but supports the primary requirements around sending and receiving messages as well as push notifications.
 
 ## Usage
 
