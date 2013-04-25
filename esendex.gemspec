@@ -14,6 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "esendex"
   gem.require_paths = ["lib"]
   gem.version       = Esendex::VERSION
-  gem.add_runtime_dependency "nestful", [">= 0.0.7"]
+  gem.add_runtime_dependency "nestful", ["~> 0.0.8"]
   gem.add_runtime_dependency "nokogiri", [">= 1.4.4.1"]
 end
