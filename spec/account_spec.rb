@@ -65,7 +65,8 @@ describe Account do
     let(:send_response_xml) {
       "<?xml version=\"1.0\" encoding=\"utf-8\"?> 
       <messageheaders batchid=\"#{batch_id}\" xmlns=\"http://api.esendex.com/ns/\">
-        <messageheader\ uri=\"http://api.esendex.com/v1.0/MessageHeaders/00000000-0000-0000-0000-000000000000\" id=\"00000000-0000-0000-0000-000000000000\" />
+        <messageheader\ uri=\"http://api.esendex.com/v1.0/MessageHeaders/00000000-0000-0000-0000-000000000001\" id=\"00000000-0000-0000-0000-000000000001\" />
+        <messageheader\ uri=\"http://api.esendex.com/v1.0/MessageHeaders/00000000-0000-0000-0000-000000000002\" id=\"00000000-0000-0000-0000-000000000002\" />
       </messageheaders>"
     }
 
@@ -79,8 +80,14 @@ describe Account do
       api_connection.should_receive(:post).with("/v1.0/messagedispatcher", anything)
       subject
     end
+    it "should return the batch_id when treated as string" do
+      subject.to_s.should eq(batch_id)
+    end
     it "should return the batch_id in the result" do
-      subject.should eq(batch_id)
+      subject.batch_id.should eq(batch_id)
+    end
+    it "should provide a list of message ids to enumerate" do
+      subject.messages.should have(2).items
     end
   end  
 end

@@ -5,6 +5,7 @@ module Esendex
   require_relative 'esendex/hash_serialisation'
   
   require_relative 'esendex/account'
+  require_relative 'esendex/dispatcher_result'
   require_relative 'esendex/inbound_message'
   require_relative 'esendex/message'
   require_relative 'esendex/message_batch_submission'
