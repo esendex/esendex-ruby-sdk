@@ -66,7 +66,6 @@ describe Account do
       "<?xml version=\"1.0\" encoding=\"utf-8\"?> 
       <messageheaders batchid=\"#{batch_id}\" xmlns=\"http://api.esendex.com/ns/\">
         <messageheader\ uri=\"http://api.esendex.com/v1.0/MessageHeaders/00000000-0000-0000-0000-000000000001\" id=\"00000000-0000-0000-0000-000000000001\" />
-        <messageheader\ uri=\"http://api.esendex.com/v1.0/MessageHeaders/00000000-0000-0000-0000-000000000002\" id=\"00000000-0000-0000-0000-000000000002\" />
       </messageheaders>"
     }
 
@@ -86,8 +85,42 @@ describe Account do
     it "should return the batch_id in the result" do
       subject.batch_id.should eq(batch_id)
     end
-    it "should provide a list of message ids to enumerate" do
+    it "should provide a list of messages with a single message" do
+      subject.messages.should have(1).items
+    end
+  end
+
+  describe "#send_messages" do
+    let(:batch_id) { random_string }
+    let(:uri_prefix) { "https://api.esendex.com/messages/" }
+    let(:message_one_id) { random_guid }
+    let(:message_two_id) { random_guid }
+    let(:send_response_xml) {
+      "<?xml version=\"1.0\" encoding=\"utf-8\"?> 
+      <messageheaders batchid=\"#{batch_id}\" xmlns=\"http://api.esendex.com/ns/\">
+        <messageheader\ uri=\"#{uri_prefix}#{message_one_id}\" id=\"#{message_one_id}\" />
+        <messageheader\ uri=\"#{uri_prefix}#{message_two_id}\" id=\"#{message_two_id}\" />
+      </messageheaders>"
+    }
+
+    before(:each) do
+      api_connection.stub(:post) { mock('Response', :body => send_response_xml) }
+    end
+
+    subject { account.send_message(to: "447815777555", body: "Hello from the Esendex Ruby Gem") }
+
+    it "posts to the message dispatcher resource" do
+      api_connection.should_receive(:post).with("/v1.0/messagedispatcher", anything)
+      subject
+    end
+    it "should provide a list containing two messages" do
       subject.messages.should have(2).items
+    end
+    it "should have message one in the message list" do
+      subject.messages.should include({:id => "#{message_one_id}", :uri => "#{uri_prefix}#{message_one_id}"})
+    end
+    it "should have message two in the message list" do
+      subject.messages.should include({:id => "#{message_two_id}", :uri => "#{uri_prefix}#{message_two_id}"})
     end
   end  
 end

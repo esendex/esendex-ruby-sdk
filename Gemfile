@@ -9,6 +9,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false
+  gem 'libnotify', :require => false
   gem 'guard'
   gem 'guard-rspec'
   gem 'growl'

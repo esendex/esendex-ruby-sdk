@@ -35,3 +35,7 @@ end
 def random_time
   Time.now + rand(9999)
 end
+
+def random_guid
+  SecureRandom.uuid
+end
