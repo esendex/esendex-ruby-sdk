@@ -3,7 +3,7 @@ require 'nestful'
 class ApiConnection
 
   def initialize
-    @connection = Nestful::Connection.new(Esendex::API_HOST)
+    @connection = Nestful::Connection.new(Esendex.api_host)
     @connection.user = Esendex.username
     @connection.password = Esendex.password
     @connection.auth_type = :basic

@@ -20,7 +20,6 @@ module Esendex
 
   API_NAMESPACE = 'http://api.esendex.com/ns/'
   API_HOST = 'https://api.esendex.com'
-  API_VERSION = 'v1.0'
 
   # Public - used to configure the gem prior to use
   # 
@@ -44,6 +43,9 @@ module Esendex
     # behaviour config
     attr_accessor :suppress_error_backtrace
     
+    # esendex api configuration
+    attr_accessor :api_host
+
     def account_reference
       @account_reference ||= ENV['ESENDEX_ACCOUNT']
     end
@@ -54,6 +56,10 @@ module Esendex
 
     def password
       @password ||= ENV['ESENDEX_PASSWORD']
+    end
+
+    def api_host
+      @api_host ||= API_HOST
     end
   end
 
