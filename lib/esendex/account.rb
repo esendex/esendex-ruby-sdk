@@ -33,5 +33,8 @@ module Esendex
       DispatcherResult.from_xml response.body
     end
 
+    def sent_messages()
+      SentMessageClient.new(api_connection).get_messages(reference)
+    end
   end
 end

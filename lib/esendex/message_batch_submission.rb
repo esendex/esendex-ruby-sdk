@@ -17,9 +17,11 @@ module Esendex
     attr_accessor :account_reference, :messages, :send_at
     
     def initialize(account_reference, messages)
+      raise AccountReferenceError unless account_reference
+      raise StandardError, "Need at least one message" unless messages.kind_of?(Array) and not messages.empty?
+
       @account_reference = account_reference
       @messages = messages
-      @send_at = send_at
     end
     
     def xml_node

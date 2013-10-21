@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe MessageFailedEvent do
-  describe ".from_xml" do
+  describe "#from_xml" do
     let(:id) { random_string }
     let(:message_id) { random_string }
     let(:account_id) { random_string }

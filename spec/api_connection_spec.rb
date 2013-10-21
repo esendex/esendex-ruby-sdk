@@ -48,8 +48,8 @@ describe ApiConnection do
       before(:each) do
         @connection.stub(:get) { raise Nestful::ForbiddenAccess.new(nil) }
       end
-      it "raises an Esendex::ForbiddenError" do
-        expect { subject }.to raise_error(Esendex::ForbiddenError)
+      it "raises an ForbiddenError" do
+        expect { subject }.to raise_error(ForbiddenError)
       end
     end
 
@@ -70,8 +70,8 @@ describe ApiConnection do
       before(:each) do
         @connection.stub(:post) { raise Nestful::ForbiddenAccess.new(nil) }
       end
-      it "raises an Esendex::ForbiddenError" do
-        expect { subject }.to raise_error(Esendex::ForbiddenError)
+      it "raises an ForbiddenError" do
+        expect { subject }.to raise_error(ForbiddenError)
       end
     end
 

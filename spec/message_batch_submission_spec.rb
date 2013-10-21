@@ -22,7 +22,7 @@ describe MessageBatchSubmission do
         subject.xpath('//messages/message/body')[i].content.should eq(messages[i].body)
       end
     end
-    context "when send_at set" do
+    context "when #send_at set" do
       let(:target_time) { Time.local(2011, 4, 7, 15, 0, 0) }
   
       before(:each) do
@@ -32,6 +32,19 @@ describe MessageBatchSubmission do
       it "should create a properly formatted sendat node" do
         subject.at_xpath('//messages/sendat').content.should eq("2011-04-07T15:00:00")
       end
+    end
+  end
+
+  describe "#initialize with nil account reference" do
+    it "should raise AccountReferenceError" do
+      messages = [Message.new(random_mobile, random_string)]
+      expect { MessageBatchSubmission.new nil, messages }.to raise_error(AccountReferenceError)
+    end
+  end
+
+  describe "#initialize with empty message array" do
+    it "should raise expected error" do
+      expect { MessageBatchSubmission.new account, [] }.to raise_error("Need at least one message")
     end
   end
 end
