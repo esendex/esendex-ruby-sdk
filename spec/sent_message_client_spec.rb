@@ -98,7 +98,7 @@ describe SentMessageClient do
     end
 
     describe "returned message content" do
-     before(:each) do
+      before(:each) do
         api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{URI.escape(account_reference)}") do 
           stub('Response', :body => api_response_xml)
         end
@@ -148,6 +148,96 @@ describe SentMessageClient do
       it "should have expected body on first message" do
         subject.body.should eq("testestestestestestestest")
       end
+    end
+  end
+
+  describe "#get_message" do
+    let(:message_id) { random_guid }
+    let(:account_reference) { "EX9999999" }
+    let(:status) { "Submitted" }
+    let(:submitted_at) { DateTime.now }
+    let(:type) { "Voice" }
+    let(:contact_id) { random_guid }
+    let(:contact_name) { random_string }
+    let(:contact_number) { random_mobile }
+    let(:originator) { random_mobile }
+    let(:summary) { random_string }
+    let(:parts) { random_integer }
+    let(:username) { random_email }
+    let(:api_response_xml) {
+        "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+        <messageheader id=\"#{message_id}\" uri=\"https://api.esendex.com/v1.0/messageheaders/#{message_id}\">
+          <reference>#{account_reference}</reference>
+          <status>#{status}</status>
+          <laststatusat>#{submitted_at.iso8601}</laststatusat>
+          <submittedat>#{submitted_at.iso8601}</submittedat>
+          <type>#{type}</type>
+          <to id=\"#{contact_id}\" uri=\"https://api.esendex.com/v1.0/contacts/#{contact_id}\">
+            <displayname>#{contact_name}</displayname>
+            <phonenumber>#{contact_number}</phonenumber>
+          </to>
+          <from>
+            <phonenumber>#{originator}</phonenumber>
+          </from>
+          <summary>#{summary}</summary>
+          <body id=\"#{message_id}\" uri=\"https://api.esendex.com/v1.0/messageheaders/#{message_id}/body\" />
+          <direction>Outbound</direction>
+          <parts>#{parts}</parts>
+          <username>#{username}</username>
+        </messageheader>"
+      }
+    let(:api_connection) { double('api_connection') }
+    let(:client) { SentMessageClient.new api_connection }
+
+    before(:each) do
+      api_connection.should_receive(:get).with("/v1.0/messageheaders/#{message_id}") do 
+        stub('Response', :body => api_response_xml)
+      end
+    end
+
+    subject { client.get_message(message_id) }
+
+    it "should have expected id on message" do
+      subject.id.should eq(message_id) 
+    end
+    it "should have expected account on message" do
+      subject.account.should eq(account_reference)
+    end
+    it "should have expected status on message" do
+      subject.status.should eq(status) 
+    end
+    it "should have expected status_at on message" do
+      subject.status_at.to_s.should eq(submitted_at.to_s) 
+    end
+    it "should have expected submitted_by on message" do
+      subject.submitted_by.should eq(username) 
+    end
+    it "should have expected submitted_at on message" do
+      subject.submitted_at.to_s.should eq(submitted_at.to_s) 
+    end
+    it "should have expected sent_at on message" do
+      subject.sent_at.should be_nil
+    end
+    it "should have expected delivered_at on message" do
+      subject.delivered_at.should be_nil 
+    end
+    it "should have expected from on message" do
+      subject.from.should eq(originator) 
+    end
+    it "should have expected to on message" do
+      subject.to.should eq("#{contact_name} <#{contact_number}>") 
+    end
+    it "should have expected type on message" do
+      subject.type.should eq(type) 
+    end
+    it "should have expected sms_parts on message" do
+      subject.sms_parts.should eq(parts) 
+    end
+    it "should have expected summary on message" do
+      subject.summary.should eq(summary)
+    end
+    it "should have expected body on first message" do
+      subject.body.should eq(summary)
     end
   end
 end
