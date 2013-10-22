@@ -33,29 +33,84 @@ describe SentMessageClient do
           </messageheader>
         </messageheaders>"
       }
-    let(:api_connection) { mock("Connection", :get => mock('Response', :body => api_response_xml))}
+    let(:api_connection) { double('api_connection') }
     let(:client) { SentMessageClient.new api_connection }
 
-    subject { client.get_messages(account_reference) }
+    describe "with account reference" do
+      before(:each) do
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{URI.escape(account_reference)}") do 
+          stub('Response', :body => api_response_xml)
+        end
+      end
 
-    it "should return instance of SentMessagesResult" do
-      subject.should be_an_instance_of(SentMessagesResult)
+      subject { client.get_messages({account_reference: account_reference}) }
+
+      it "should return instance of SentMessagesResult" do
+        subject.should be_an_instance_of(SentMessagesResult)
+      end
+      it "should have start_index property" do
+        subject.start_index.should eq(start_index)
+      end
+      it "should have total_messages property" do
+        subject.total_messages.should eq(total_count)
+      end
+      it "should have messages array" do
+        subject.messages.should_not be_empty
+      end
     end
-    it "should have start_index property" do
-      subject.start_index.should eq(start_index)
+
+    describe "with paging" do
+      before(:each) do
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?startindex=#{start_index}&count=#{count}") do 
+          stub('Response', :body => api_response_xml)
+        end
+      end
+
+      subject { client.get_messages({
+        start_index: start_index,
+        count: count
+        })
+      }
+
+      it "should return instance of SentMessagesResult" do
+        subject.should be_an_instance_of(SentMessagesResult)
+      end
     end
-    it "should have total_messages property" do
-      subject.total_messages.should eq(total_count)
-    end
-    it "should have messages array" do
-      subject.messages.should_not be_empty
+
+    describe "with date range" do
+      let(:end_date) { DateTime.now - 30 }
+      let(:start_date) { end_date - 365 }
+      before(:each) do
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?start=#{URI.escape(start_date.iso8601)}&finish=#{URI.escape(end_date.iso8601)}") do 
+          stub('Response', :body => api_response_xml)
+        end
+      end
+
+      subject { client.get_messages({
+        start: start_date,
+        finish: end_date
+        })
+      }
+
+      it "should return instance of SentMessagesResult" do
+        subject.should be_an_instance_of(SentMessagesResult)
+      end
     end
 
     describe "returned message content" do
-      subject { client.get_messages(account_reference).messages[0] }
+     before(:each) do
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{URI.escape(account_reference)}") do 
+          stub('Response', :body => api_response_xml)
+        end
+      end
+
+      subject { client.get_messages({account_reference: account_reference}).messages[0] }
 
       it "should have expected id on first message" do
         subject.id.should eq(message_id) 
+      end
+      it "should have expected account on first message" do
+        subject.account.should eq(account_reference)
       end
       it "should have expected status on first message" do
         subject.status.should eq("Delivered") 

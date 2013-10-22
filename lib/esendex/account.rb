@@ -34,7 +34,7 @@ module Esendex
     end
 
     def sent_messages()
-      SentMessageClient.new(api_connection).get_messages(reference)
+      SentMessageClient.new(api_connection).get_messages({account_reference: reference})
     end
   end
 end
