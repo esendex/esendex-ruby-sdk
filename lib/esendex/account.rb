@@ -2,6 +2,8 @@ require 'nokogiri'
 
 module Esendex
   class Account
+    DEFAULT_DATE_OFFSET = 90
+    
     attr_accessor :reference
     
     def initialize(account_reference = Esendex.account_reference)
@@ -33,8 +35,14 @@ module Esendex
       DispatcherResult.from_xml response.body
     end
 
-    def sent_messages()
-      SentMessageClient.new(api_connection).get_messages({account_reference: reference})
+    def sent_messages(args={})
+      args[:account_reference] = reference
+      args[:start] = args[:finish] - DEFAULT_DATE_OFFSET if args.key?(:finish) and not args.key?(:start)
+      args[:finish] = args[:start] + DEFAULT_DATE_OFFSET if args.key?(:start) and not args.key?(:finish)
+
+      SentMessageClient
+        .new(api_connection)
+        .get_messages(args)
     end
   end
 end

@@ -38,7 +38,7 @@ describe SentMessageClient do
 
     describe "with account reference" do
       before(:each) do
-        api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{URI.escape(account_reference)}") do 
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{CGI.escape(account_reference)}") do 
           stub('Response', :body => api_response_xml)
         end
       end
@@ -81,7 +81,7 @@ describe SentMessageClient do
       let(:end_date) { DateTime.now - 30 }
       let(:start_date) { end_date - 365 }
       before(:each) do
-        api_connection.should_receive(:get).with("/v1.0/messageheaders?start=#{URI.escape(start_date.iso8601)}&finish=#{URI.escape(end_date.iso8601)}") do 
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?start=#{CGI.escape(start_date.iso8601)}&finish=#{CGI.escape(end_date.iso8601)}") do 
           stub('Response', :body => api_response_xml)
         end
       end
@@ -99,7 +99,7 @@ describe SentMessageClient do
 
     describe "returned message content" do
       before(:each) do
-        api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{URI.escape(account_reference)}") do 
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{CGI.escape(account_reference)}") do 
           stub('Response', :body => api_response_xml)
         end
       end

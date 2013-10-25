@@ -1,3 +1,4 @@
+require 'cgi'
 require 'nokogiri'
 
 module Esendex
@@ -65,7 +66,7 @@ module Esendex
       separator = ''
       %w(account_reference start_index count start finish).each do |key|
         next unless criteria.key?(key.to_sym)
-        uri.query += "#{separator}#{key.delete('_')}=#{URI.escape(criteria[key.to_sym].to_s)}"
+        uri.query += "#{separator}#{key.delete('_')}=#{CGI.escape(criteria[key.to_sym].to_s)}"
         separator = '&'
       end
       uri.to_s

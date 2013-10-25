@@ -125,44 +125,82 @@ describe Account do
   end
 
   describe "#sent_messages" do
-    let(:query_response_xml) {
-      "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-      <messageheaders startindex=\"0\" count=\"1\" totalcount=\"99\" xmlns=\"http://api.esendex.com/ns/\">
-        <messageheader id=\"00000000-0000-0000-0000-000000000001\" uri=\"https://api.esendex.com/v1.0/messageheaders/00000000-0000-0000-0000-000000000001\">
-          <reference>EX9999999</reference>
-          <status>Delivered</status>
-          <deliveredat>2013-01-01T12:00:02Z</deliveredat>
-          <sentat>2013-01-01T12:00:01Z</sentat>
-          <laststatusat>2013-01-01T12:00:02Z</laststatusat>
-          <submittedat>2013-01-01T12:00:00Z</submittedat>
-          <type>SMS</type>
-          <to>
-            <phonenumber>447712345678</phonenumber>
-          </to>
-          <from>
-            <phonenumber>testing123</phonenumber>
-          </from>
-          <summary>testestestestestestestestestestestestestestest...</summary>
-          <body id=\"00000000-0000-0000-0000-000000000001\" uri=\"https://api.esendex.com/v1.0/messageheaders/00000000-0000-0000-0000-000000000001/body\" />
-          <direction>Outbound</direction>
-          <parts>2</parts>
-          <username>user@example.com</username>
-        </messageheader>
-      </messageheaders>"
-    }
+    let(:sent_message_client) { stub("sent_message_client") }
+    let(:sent_messages_result) { Class.new }
 
     before(:each) do
-      api_connection.stub(:get) { mock('Response', :body => query_response_xml) }
+      stub_const("Esendex::SentMessageClient", sent_message_client)
+      sent_message_client
+        .should_receive(:new)
+        .with(api_connection)
+        .and_return(sent_message_client)
     end
 
-    subject { account.sent_messages() }
+    describe "default (no args)" do
+      before(:each) do
+        sent_message_client
+          .should_receive(:get_messages)
+          .with({account_reference: account_reference})
+          .and_return(sent_messages_result)
+      end
 
-    it "should get the message headers resource for the account reference" do
-      api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{account_reference}")
-      subject
+      subject { account.sent_messages() }
+
+      it "should return expected result" do
+        subject.should eq(sent_messages_result)
+      end
     end
-    it "should return expected result type" do
-      subject.should be_an_instance_of(SentMessagesResult)
+
+    describe "with start and finish dates" do
+      it "should pass dates without adjustment" do
+        start_date = DateTime.now - 30
+        finish_date = DateTime.now - 15
+        sent_message_client
+          .should_receive(:get_messages)
+          .with({account_reference: account_reference, start: start_date, finish: finish_date})
+          .and_return(sent_messages_result)
+
+        account.sent_messages({start: start_date, finish: finish_date}).should_not be_nil
+      end
+    end
+
+    describe "with start date" do
+      it "should specify start date and default finish date" do
+        start_date = DateTime.now - 1
+        finish_date = start_date + 90
+        sent_message_client
+          .should_receive(:get_messages)
+          .with({account_reference: account_reference, start: start_date, finish: finish_date})
+          .and_return(sent_messages_result)
+
+        account.sent_messages({start: start_date}).should_not be_nil
+      end
+    end
+
+    describe "with finish date" do
+      it "should specify default start date and finish date" do
+        finish_date = DateTime.now - 1
+        start_date = finish_date - 90
+        sent_message_client
+          .should_receive(:get_messages)
+          .with({account_reference: account_reference, start: start_date, finish: finish_date})
+          .and_return(sent_messages_result)
+
+        account.sent_messages({finish: finish_date}).should_not be_nil
+      end
+    end
+
+    describe "with start index and count" do
+      it "should pass expected arguments" do
+        start_index = 3
+        count = 35
+        sent_message_client
+          .should_receive(:get_messages)
+          .with({account_reference: account_reference, start_index: start_index, count: count})
+          .and_return(sent_messages_result)
+
+        account.sent_messages({start_index: start_index, count: count}).should_not be_nil
+      end
     end
   end
 end
