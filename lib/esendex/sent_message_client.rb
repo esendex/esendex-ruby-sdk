@@ -14,11 +14,33 @@ module Esendex
     def get_messages(criteria)
       request_uri = generate_uri criteria
       response = api_connection.get request_uri
+
       root = Nokogiri::XML.parse(response.body).root()
+      start_index = root['startindex'].to_i
+      total_messages = root['totalcount'].to_i
+
+      return SentMessagesResult.new(0, 0, []) if total_messages == 0
+
       messages = root.css('messageheader').map do |header|
         parse_header header
       end
-      SentMessagesResult.new root['startindex'].to_i, root['totalcount'].to_i, messages
+
+      page_size = criteria[:count] || messages.length
+      page, pages = calculate_paging start_index, total_messages, page_size
+
+      previous_page_criteria = criteria.clone.merge(count: page_size, start_index: start_index - page_size)
+      previous_page_func = page == 1 ? nil : lambda { get_messages(previous_page_criteria) }
+
+      next_page_criteria = criteria.clone.merge(count: page_size, start_index: start_index + page_size)
+      next_page_func = page == pages ? nil : lambda { get_messages(next_page_criteria) }
+      
+      SentMessagesResult.new page, total_messages, messages, previous_page_func, next_page_func
+    end
+
+    def calculate_paging(index, total, page_size)
+      pages = (total.to_f / page_size).ceil
+      return 1, pages if index == 0
+      return ((index + 1).to_f / page_size).ceil, pages
     end
 
     def get_message(message_id)
@@ -43,7 +65,7 @@ module Esendex
         summary: header.at('summary').text
       }, lambda { 
         response = api_connection.get(header.at('body')['uri'])
-        Nokogiri::XML.parse(response.body).at('bodytext')
+        Nokogiri::XML.parse(response.body).at('bodytext').text
       })
     end
 
@@ -72,6 +94,6 @@ module Esendex
       uri.to_s
     end
 
-    private :parse_header, :parse_date, :format_contact, :generate_uri
+    private :calculate_paging, :parse_header, :parse_date, :format_contact, :generate_uri
   end
 end

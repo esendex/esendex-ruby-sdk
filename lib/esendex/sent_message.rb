@@ -14,6 +14,10 @@ module Esendex
       @cached_body ||= resolve_body()
     end
 
+    def to_s
+      "#{id} to: #{to} @ #{submitted_at}"
+    end
+
     def resolve_body()
       if summary.length < 50
         summary
