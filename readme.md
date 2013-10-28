@@ -33,11 +33,11 @@ You can also specify these using the environment variables `ESENDEX_USERNAME`, `
 ### Sending Messages
 
 First instantiate an Account with the reference. You can omit the reference if you've already configured one to use in the *Esendex.configure* step.
-Then, call the send method on the account object with a hash describing the message. The return value is a *batch_id* you can use to obtain the status of the messages you have sent.
+Then, call the send method on the account object with a hash describing the message. The return value is a *DispatcherResult* which has the *batch_id* you can use to obtain the status of the *messages* you have sent.
 
 ```ruby
 account = Account.new
-batch_id = account.send_message( to: "07777111222", body: "Saying hello to the world with the help of Esendex")
+result = account.send_message( to: "07777111222", body: "Saying hello to the world with the help of Esendex")
 ```
 You can specify a different account to the default by passing the reference in as an initialization argument
 
@@ -48,7 +48,17 @@ account = Account.new('EX23847')
 Multiple messages are sent by passing an array of `Messages` to the `send_messages` method
 	
 ```ruby
-batch_id = account.send_messages([Message.new("07777111222", "Hello"), Message.new("07777111333", "Hi")])
+result = account.send_messages([Message.new("07777111222", "Hello"), Message.new("07777111333", "Hi")])
+```
+
+Sent messages can be retrieved by calling the `sent_messages` method. The return value is a *SentMessagesResult*
+
+```ruby
+result = account.sent_messages
+puts result
+result.messages.each do |message|
+  puts message
+end
 ```
 
 ### Testing Configuration
@@ -86,7 +96,7 @@ Classes are provided in the gem for deserialising the notifications: `MessageDel
 message = InboundMessage.from_xml request.body
 ```
 
-### Rails 3
+### Rails 3 / Rails 4
 
 In order to simplify receipt of push notifications for Rails 3 users, the gem ships with mountable Rails controllers to handle the receipt of these notifications.
 
