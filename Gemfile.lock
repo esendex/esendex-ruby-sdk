@@ -70,6 +70,8 @@ GEM
     multi_json (1.6.1)
     nestful (0.0.8)
       activesupport (>= 3.0.0.beta)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
     nokogiri (1.6.0-x86-mingw32)
       mini_portile (~> 0.5.0)
     polyglot (0.3.3)

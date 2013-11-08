@@ -4,6 +4,7 @@ require 'nokogiri'
 module Esendex
   class SentMessageClient
     END_POINT = "/v1.0/messageheaders"
+    DEFAULT_COUNT = 30
 
     attr_accessor :api_connection
 
@@ -11,7 +12,10 @@ module Esendex
       @api_connection = api_connection
     end
 
-    def get_messages(criteria)
+    def get_messages(criteria={})
+      criteria[:count] = DEFAULT_COUNT unless criteria.key?(:count)
+      criteria[:start_index] = (criteria[:page] - 1) * criteria[:count] if criteria.key?(:page) and criteria[:page] > 0
+      
       request_uri = generate_uri criteria
       response = api_connection.get request_uri
 
@@ -25,7 +29,7 @@ module Esendex
         parse_header header
       end
 
-      page_size = criteria[:count] || messages.length
+      page_size = criteria[:count]
       page, pages = calculate_paging start_index, total_messages, page_size
 
       previous_page_criteria = criteria.clone.merge(count: page_size, start_index: start_index - page_size)
@@ -86,7 +90,7 @@ module Esendex
     def generate_uri(criteria)
       uri = URI.parse("#{END_POINT}?")
       separator = ''
-      %w(account_reference start_index count start finish).each do |key|
+      %w(account_reference start finish start_index count).each do |key|
         next unless criteria.key?(key.to_sym)
         uri.query += "#{separator}#{key.delete('_')}=#{CGI.escape(criteria[key.to_sym].to_s)}"
         separator = '&'

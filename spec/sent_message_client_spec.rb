@@ -7,6 +7,7 @@ describe SentMessageClient do
     let(:total_count) { 99 }
     let(:message_id) { random_guid }
     let(:account_reference) { "EX9999999" }
+    let(:default_count) { 30 }
     let(:api_response_xml) {
         "<?xml version=\"1.0\" encoding=\"utf-8\"?>
         <messageheaders startindex=\"#{start_index}\" count=\"#{count}\" totalcount=\"#{total_count}\" xmlns=\"http://api.esendex.com/ns/\">
@@ -38,7 +39,7 @@ describe SentMessageClient do
 
     describe "with account reference" do
       before(:each) do
-        api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{CGI.escape(account_reference)}") do 
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?accountreference=#{CGI.escape(account_reference)}&count=#{default_count}") do 
           stub('Response', :body => api_response_xml)
         end
       end
@@ -50,7 +51,7 @@ describe SentMessageClient do
       end
     end
 
-    describe "with paging" do
+    describe "with api paging" do
       before(:each) do
         api_connection.should_receive(:get).with("/v1.0/messageheaders?startindex=#{start_index}&count=#{count}") do 
           stub('Response', :body => api_response_xml)
@@ -68,11 +69,38 @@ describe SentMessageClient do
       end
     end
 
+    describe "with easy paging" do
+      it "should request first page" do
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?startindex=0&count=#{default_count}") do
+          stub('Response', :body => api_response_xml)
+        end
+
+        client.get_messages(page: 1)
+      end
+
+      it "should request specific page" do
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?startindex=420&count=#{default_count}") do
+          stub('Response', :body => api_response_xml)
+        end
+
+        client.get_messages(page: 15)
+      end
+
+      it "should request specific page with non-default page size" do
+        page_size = 10
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?startindex=140&count=#{page_size}") do
+          stub('Response', :body => api_response_xml)
+        end
+
+        client.get_messages(page: 15, count: page_size)
+      end
+    end
+
     describe "with date range" do
       let(:end_date) { DateTime.now - 30 }
       let(:start_date) { end_date - 365 }
       before(:each) do
-        api_connection.should_receive(:get).with("/v1.0/messageheaders?start=#{CGI.escape(start_date.iso8601)}&finish=#{CGI.escape(end_date.iso8601)}") do 
+        api_connection.should_receive(:get).with("/v1.0/messageheaders?start=#{CGI.escape(start_date.iso8601)}&finish=#{CGI.escape(end_date.iso8601)}&count=#{default_count}") do 
           stub('Response', :body => api_response_xml)
         end
       end
