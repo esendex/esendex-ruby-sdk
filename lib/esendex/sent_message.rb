@@ -22,7 +22,7 @@ module Esendex
       if summary.length < 50
         summary
       else
-        @load_body_func[]
+        @load_body_func.call
       end
     end
 

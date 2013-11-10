@@ -8,7 +8,7 @@ describe SentMessage do
     let(:remote_stub) { double() }
 
     before(:each) do
-      remote_stub.stub(:[]) { remote_body }
+      remote_stub.stub(:call) { remote_body }
     end
 
     describe "when summary has entire body text" do
@@ -31,7 +31,7 @@ describe SentMessage do
       end
 
       it "should invoke the remote call once only" do
-        remote_stub.should_receive(:[]).at_most(:once)
+        remote_stub.should_receive(:call).at_most(:once)
         (0...10).each do
           result = subject.body
         end
