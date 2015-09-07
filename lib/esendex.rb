@@ -45,9 +45,6 @@ module Esendex
 
     # behaviour config
     attr_accessor :suppress_error_backtrace
-    
-    # esendex api configuration
-    attr_accessor :api_host
 
     def account_reference
       @account_reference ||= ENV['ESENDEX_ACCOUNT']
@@ -59,10 +56,6 @@ module Esendex
 
     def password
       @password ||= ENV['ESENDEX_PASSWORD']
-    end
-
-    def api_host
-      @api_host ||= API_HOST
     end
   end
 
