@@ -19,7 +19,7 @@ module Esendex
     end
 
     def to_s
-      self.batch_id
+      batch_id
     end
   end
 end

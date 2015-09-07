@@ -11,9 +11,6 @@ module Esendex
   require_relative 'esendex/message_batch_submission'
   require_relative 'esendex/message_delivered_event'
   require_relative 'esendex/message_failed_event'
-  require_relative 'esendex/sent_message'
-  require_relative 'esendex/sent_message_client'
-  require_relative 'esendex/sent_messages_result'
   
   # Load Rails extensions if Rails present
   if defined?(Rails)

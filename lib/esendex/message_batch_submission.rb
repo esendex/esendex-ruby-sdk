@@ -18,7 +18,7 @@ module Esendex
     
     def initialize(account_reference, messages)
       raise AccountReferenceError unless account_reference
-      raise StandardError, "Need at least one message" unless messages.kind_of?(Array) and not messages.empty?
+      raise StandardError, "Need at least one message" unless messages.kind_of?(Array) && !messages.empty?
 
       @account_reference = account_reference
       @messages = messages
@@ -31,10 +31,10 @@ module Esendex
       account_reference.content = self.account_reference
       doc.root.add_child(account_reference)
 
-      if self.send_at
-        send_at = Nokogiri::XML::Node.new 'sendat', doc
-        send_at.content = self.send_at.strftime("%Y-%m-%dT%H:%M:%S")
-        doc.root.add_child(send_at)
+      if send_at
+        send_at_node = Nokogiri::XML::Node.new 'sendat', doc
+        send_at_node.content = send_at.strftime("%Y-%m-%dT%H:%M:%S")
+        doc.root.add_child(send_at_node)
       end
       
       @messages.each do |message|
@@ -45,7 +45,7 @@ module Esendex
     end
     
     def to_s
-      self.xml_node.to_s
+      xml_node.to_s
     end
   end
 end
