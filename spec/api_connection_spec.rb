@@ -15,22 +15,22 @@ describe ApiConnection do
   end
 
   describe "#initialise" do
-
     subject { ApiConnection.new }
 
     it "should set the username" do
       subject
       @connection.user.should eq(Esendex.username)
     end
+    
     it "should set the password" do
       subject
       @connection.password.should eq(Esendex.password)
     end
+    
     it "should set the auth to basic" do
       subject
       @connection.auth_type.should eq(:basic)
     end
-
   end
 
 
@@ -48,11 +48,11 @@ describe ApiConnection do
       before(:each) do
         @connection.stub(:get) { raise Nestful::ForbiddenAccess.new(nil) }
       end
+      
       it "raises an ForbiddenError" do
         expect { subject }.to raise_error(ForbiddenError)
       end
     end
-
   end
 
   describe "#post" do
@@ -70,10 +70,10 @@ describe ApiConnection do
       before(:each) do
         @connection.stub(:post) { raise Nestful::ForbiddenAccess.new(nil) }
       end
+      
       it "raises an ForbiddenError" do
         expect { subject }.to raise_error(ForbiddenError)
       end
     end
-
   end
 end

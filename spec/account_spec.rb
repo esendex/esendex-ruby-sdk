@@ -116,12 +116,15 @@ describe Account do
       api_connection.should_receive(:post).with("/v1.0/messagedispatcher", anything)
       subject
     end
+    
     it "should provide a list containing two messages" do
       subject.messages.should have(2).items
     end
+    
     it "should have message one in the message list" do
       subject.messages.should include(id: "#{message_one_id}", uri: "#{uri_prefix}#{message_one_id}")
     end
+    
     it "should have message two in the message list" do
       subject.messages.should include(id: "#{message_two_id}", uri: "#{uri_prefix}#{message_two_id}")
     end
@@ -139,7 +142,7 @@ describe Account do
         .and_return(sent_message_client)
     end
 
-    describe "default (no args)" do
+    context "with no args" do
       before(:each) do
         sent_message_client
           .should_receive(:get_messages)
@@ -154,7 +157,7 @@ describe Account do
       end
     end
 
-    describe "with start and finish dates" do
+    context "with start and finish dates" do
       it "should pass dates without adjustment" do
         start_date = DateTime.now - 30
         finish_date = DateTime.now - 15
@@ -167,7 +170,7 @@ describe Account do
       end
     end
 
-    describe "with start date" do
+    context "with start date" do
       it "should specify start date and default finish date" do
         start_date = DateTime.now - 1
         sent_message_client
@@ -179,7 +182,7 @@ describe Account do
       end
     end
 
-    describe "with finish date" do
+    context "with finish date" do
       it "should specify default start date and finish date" do
         finish_date = DateTime.now - 1
         start_date = finish_date - 90
@@ -192,7 +195,7 @@ describe Account do
       end
     end
 
-    describe "with start index and count" do
+    context "with start index and count" do
       it "should pass expected arguments" do
         start_index = 3
         count = 35
