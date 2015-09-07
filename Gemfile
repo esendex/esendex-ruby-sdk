@@ -12,6 +12,5 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rspec'
   gem 'growl'
-  gem 'libnotify', :require => false
   gem 'wdm', "<= 0.0.3", :platforms => [:mswin, :mingw], :require => false
 end
