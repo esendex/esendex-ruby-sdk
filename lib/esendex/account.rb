@@ -36,13 +36,9 @@ module Esendex
     end
 
     def sent_messages(args={})
-      args[:account_reference] = reference
-      args[:start] = args[:finish] - DEFAULT_DATE_OFFSET if args.key?(:finish) and not args.key?(:start)
-      args[:finish] = args[:start] + DEFAULT_DATE_OFFSET if args.key?(:start) and not args.key?(:finish)
-
       SentMessageClient
         .new(api_connection)
-        .get_messages(args)
+        .get_messages(args.merge(account_reference: reference))
     end
   end
 end

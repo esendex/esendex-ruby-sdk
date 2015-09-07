@@ -38,26 +38,26 @@ describe Account do
   end
 
   describe "#messages_remaining" do
-
     subject { account.messages_remaining }
 
     it "should get the account resource" do
       api_connection.should_receive(:get).with("/v1.0/accounts")
       subject
     end
+    
     it "should get the messages remaining from the document" do
       subject.should eq(messages_remaining)
     end
-  end
-  
-  describe "#messages_remaining invalid reference" do
-    before(:each) do
-      account.reference = "invalid"
-    end
-  
-    it "should raise AccountReferenceError" do
-      expect { account.messages_remaining }.to raise_error(AccountReferenceError)
-    end
+    
+    context "with invalid reference" do
+      before(:each) do
+        account.reference = "invalid"
+      end
+    
+      it "should raise AccountReferenceError" do
+        expect { account.messages_remaining }.to raise_error(AccountReferenceError)
+      end
+    end 
   end
 
   describe "#send_message" do
@@ -79,12 +79,15 @@ describe Account do
       api_connection.should_receive(:post).with("/v1.0/messagedispatcher", anything)
       subject
     end
+    
     it "should return the batch_id when treated as string" do
       subject.to_s.should eq(batch_id)
     end
+    
     it "should return the batch_id in the result" do
       subject.batch_id.should eq(batch_id)
     end
+    
     it "should provide a list of messages with a single message" do
       subject.messages.should have(1).items
     end
@@ -167,10 +170,9 @@ describe Account do
     describe "with start date" do
       it "should specify start date and default finish date" do
         start_date = DateTime.now - 1
-        finish_date = start_date + 90
         sent_message_client
           .should_receive(:get_messages)
-          .with({account_reference: account_reference, start: start_date, finish: finish_date})
+          .with({account_reference: account_reference, start: start_date})
           .and_return(sent_messages_result)
 
         account.sent_messages({start: start_date}).should_not be_nil
@@ -183,7 +185,7 @@ describe Account do
         start_date = finish_date - 90
         sent_message_client
           .should_receive(:get_messages)
-          .with({account_reference: account_reference, start: start_date, finish: finish_date})
+          .with({account_reference: account_reference, finish: finish_date})
           .and_return(sent_messages_result)
 
         account.sent_messages({finish: finish_date}).should_not be_nil
