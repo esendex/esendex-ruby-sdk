@@ -5,6 +5,7 @@ module Esendex
   require_relative 'esendex/hash_serialisation'
   
   require_relative 'esendex/account'
+  require_relative 'esendex/dispatcher_result'
   require_relative 'esendex/inbound_message'
   require_relative 'esendex/message'
   require_relative 'esendex/message_batch_submission'
@@ -19,7 +20,6 @@ module Esendex
 
   API_NAMESPACE = 'http://api.esendex.com/ns/'
   API_HOST = 'https://api.esendex.com'
-  API_VERSION = 'v1.0'
 
   # Public - used to configure the gem prior to use
   # 
@@ -42,7 +42,7 @@ module Esendex
 
     # behaviour config
     attr_accessor :suppress_error_backtrace
-    
+
     def account_reference
       @account_reference ||= ENV['ESENDEX_ACCOUNT']
     end
