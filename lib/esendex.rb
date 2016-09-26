@@ -8,6 +8,7 @@ module Esendex
   require_relative 'esendex/dispatcher_result'
   require_relative 'esendex/inbound_message'
   require_relative 'esendex/message'
+  require_relative 'esendex/voice_message'
   require_relative 'esendex/message_batch_submission'
   require_relative 'esendex/message_delivered_event'
   require_relative 'esendex/message_failed_event'
