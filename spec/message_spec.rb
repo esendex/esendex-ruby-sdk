@@ -33,7 +33,7 @@ describe Message do
     it "contains a body node" do
       subject.at_xpath('//message/body').content.should eq(body)
     end
-    
+
     context "when #from set" do
       let(:from) { random_string }
 

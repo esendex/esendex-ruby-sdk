@@ -31,7 +31,7 @@ module Esendex
         from.content = @from
         doc.root.add_child(from)
       end
-      
+
       doc.root
     end
   end
