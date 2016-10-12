@@ -3,8 +3,9 @@ require 'spec_helper'
 describe VoiceMessage do
   context 'a voice message' do
     let(:to) { random_mobile }
+    let(:from) { random_mobile }
     let(:body) { random_string }
-    let(:message) { Esendex::VoiceMessage.new(to, body) }
+    let(:message) { Esendex::VoiceMessage.new(to, body, from, retries: 3) }
 
     subject { message.xml_node }
 
@@ -19,6 +20,10 @@ describe VoiceMessage do
 
       it "contains type" do
         subject.at_xpath('//message/type').content.should eq('Voice')
+      end
+
+      it "contains the number of retries" do
+        subject.at_xpath('//message/retries').content.should eq('3')
       end
 
       it "contains language" do
