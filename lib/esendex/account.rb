@@ -3,13 +3,13 @@ require 'nokogiri'
 module Esendex
   class Account
     DEFAULT_DATE_OFFSET = 90
-    
+
     attr_accessor :reference
-    
+
     def initialize(account_reference = Esendex.account_reference)
       @reference = account_reference
     end
-    
+
     def api_connection
       @api_connection ||= ApiConnection.new
     end
@@ -28,7 +28,7 @@ module Esendex
 
       send_messages [Message.new(args[:to], args[:body], args[:from])]
     end
-    
+
     def send_messages(messages)
       batch_submission = MessageBatchSubmission.new(@reference, messages)
       response = api_connection.post("/v1.0/messagedispatcher", batch_submission.to_s)
@@ -39,6 +39,11 @@ module Esendex
       SentMessageClient
         .new(api_connection)
         .get_messages(args.merge(account_reference: reference))
+    end
+
+    def request_message_status(id)
+      response = api_connection.get "/v1.0/messageheaders/#{id}"
+      MessageStatus.from_xml response.body
     end
   end
 end
