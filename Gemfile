@@ -11,6 +11,8 @@ group :development, :test do
   gem 'rb-fsevent', :require => false
   gem 'guard'
   gem 'guard-rspec'
+  gem 'test-unit'
+  gem 'pry'
   gem 'growl'
   gem 'wdm', "<= 0.0.3", :platforms => [:mswin, :mingw], :require => false
 end
