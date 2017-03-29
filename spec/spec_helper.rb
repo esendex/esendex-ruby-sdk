@@ -14,6 +14,7 @@ include Esendex
 
 RSpec.configure do |config|
   config.color = true
+  config.raise_errors_for_deprecations!
 end
 
 def random_string

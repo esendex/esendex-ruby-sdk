@@ -5,9 +5,11 @@ describe ApiConnection do
 
   before(:each) do
     @connection = Nestful::Connection.new Esendex::API_HOST
-    Nestful::Connection.stub(:new) { @connection }
-    @connection.stub(:get) {}
-    @connection.stub(:post) {}
+
+    allow(Nestful::Connection).to receive(:new).and_return @connection
+    allow(@connection).to receive :get
+    allow(@connection).to receive :post
+
     Esendex.configure do |config|
       config.username = random_string
       config.password = random_string
@@ -19,38 +21,37 @@ describe ApiConnection do
 
     it "should set the username" do
       subject
-      @connection.user.should eq(Esendex.username)
+      expect(@connection.user).to eq Esendex.username
     end
-    
+
     it "should set the password" do
       subject
-      @connection.password.should eq(Esendex.password)
+      expect(@connection.password).to eq Esendex.password
     end
-    
+
     it "should set the auth to basic" do
       subject
-      @connection.auth_type.should eq(:basic)
+      expect(@connection.auth_type).to eq :basic
     end
   end
-
 
   describe "#get" do
     let(:url) { random_string }
 
     subject { api_connection.get url }
-    
+
     it "should call get with headers" do
-      @connection.should_receive(:get).with(url, api_connection.default_headers)
+      expect(@connection).to receive(:get).with(url, api_connection.default_headers)
       subject
     end
 
     context "when 403 raised" do
       before(:each) do
-        @connection.stub(:get) { raise Nestful::ForbiddenAccess.new(nil) }
+        allow(@connection).to receive(:get).and_raise Nestful::ForbiddenAccess.new(nil)
       end
-      
+
       it "raises an ForbiddenError" do
-        expect { subject }.to raise_error(ForbiddenError)
+        expect { subject }.to raise_error ForbiddenError
       end
     end
   end
@@ -60,19 +61,19 @@ describe ApiConnection do
     let(:body) { random_string }
 
     subject { api_connection.post url, body }
-    
+
     it "should call post with headers" do
-      @connection.should_receive(:post).with(url, body, api_connection.default_headers)
+      expect(@connection).to receive(:post).with(url, body, api_connection.default_headers)
       subject
     end
 
     context "when 403 raised" do
       before(:each) do
-        @connection.stub(:post) { raise Nestful::ForbiddenAccess.new(nil) }
+        allow(@connection).to receive(:post).and_raise Nestful::ForbiddenAccess.new(nil)
       end
-      
+
       it "raises an ForbiddenError" do
-        expect { subject }.to raise_error(ForbiddenError)
+        expect { subject }.to raise_error ForbiddenError
       end
     end
   end
