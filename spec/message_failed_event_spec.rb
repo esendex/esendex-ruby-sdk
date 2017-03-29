@@ -18,16 +18,16 @@ describe MessageFailedEvent do
     subject { MessageFailedEvent.from_xml source }
 
     it "should set the id" do
-      subject.id.should eq(id)
+      expect(subject.id).to eq id
     end
     it "should set the message_id" do
-      subject.message_id.should eq(message_id)
+      expect(subject.message_id).to eq message_id
     end
     it "should set the account_id" do
-      subject.account_id.should eq(account_id)
+      expect(subject.account_id).to eq account_id
     end
     it "should set the occurred_at" do
-      subject.occurred_at.to_i.should eq(occurred_at.to_i)
+      expect(subject.occurred_at.to_i).to eq occurred_at.to_i
     end
   end
 end

@@ -3,9 +3,9 @@ source "http://rubygems.org"
 gemspec
 
 group :development, :test do
-  gem 'rails', "~> 3.2.12"
+  gem 'rails', "~> 5.0.2"
   gem 'rake'
-  gem 'rspec'
+  gem 'rspec', '~> 3.5'
   gem 'rspec-rails'
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false

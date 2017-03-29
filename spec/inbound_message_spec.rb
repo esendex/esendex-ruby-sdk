@@ -22,22 +22,22 @@ describe InboundMessage do
     subject { InboundMessage.from_xml source }
 
     it "should set the id" do
-      subject.id.should eq(id)
+      expect(subject.id).to eq id
     end
     it "should set the message_id" do
-      subject.message_id.should eq(message_id)
+      expect(subject.message_id).to eq message_id
     end
     it "should set the account_id" do
-      subject.account_id.should eq(account_id)
+      expect(subject.account_id).to eq account_id
     end
     it "should set the message_text" do
-      subject.message_text.should eq(message_text)
+      expect(subject.message_text).to eq message_text
     end
     it "should set the from" do
-      subject.from.should eq(from)
+      expect(subject.from).to eq from
     end
     it "should set the to" do
-      subject.to.should eq(to)
+      expect(subject.to).to eq to
     end
   end
 end
