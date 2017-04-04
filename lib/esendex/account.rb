@@ -41,8 +41,8 @@ module Esendex
         .get_messages(args.merge(account_reference: reference))
     end
 
-    def request_message_status(id)
-      response = api_connection.get "/v1.0/messageheaders/#{id}"
+    def message_status(message_id)
+      response = api_connection.get "/v1.0/messageheaders/#{message_id}"
       MessageStatus.from_xml response.body
     end
   end

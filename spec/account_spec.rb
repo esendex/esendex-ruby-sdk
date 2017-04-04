@@ -130,7 +130,7 @@ describe Account do
     end
   end
 
-  describe "#request_message_status" do
+  describe "#message_status" do
     let(:uri_prefix) { "https://api.esendex.com/v1.0/messageheaders/" }
     let(:message_id) { random_guid }
     let(:phonenumber) { "12345678" }
@@ -149,7 +149,7 @@ describe Account do
       allow(api_connection).to receive(:get).and_return( double('Response', body: send_response_xml) )
     end
 
-    subject { account.request_message_status(message_id) }
+    subject { account.message_status(message_id) }
 
     it "should post to the message dispatcher resource" do
       expect(api_connection).to receive(:get).with "/v1.0/messageheaders/#{message_id}"
