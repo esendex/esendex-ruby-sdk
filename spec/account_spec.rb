@@ -151,7 +151,7 @@ describe Account do
 
     subject { account.message_status(message_id) }
 
-    it "should post to the message dispatcher resource" do
+    it "should get the messageheader resource with a message id" do
       expect(api_connection).to receive(:get).with "/v1.0/messageheaders/#{message_id}"
       subject
     end
