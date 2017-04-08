@@ -12,7 +12,7 @@ require 'nokogiri'
 module Esendex
   class MessageDeliveredEvent
     include HashSerialisation
-    
+
     attr_accessor :id, :message_id, :account_id, :occurred_at
 
     def self.from_xml(source)
@@ -25,6 +25,5 @@ module Esendex
       event.occurred_at = DateTime.strptime(occurred_at_s, "%Y-%m-%dT%H:%M:%S").to_time
       event
     end
-
   end
 end

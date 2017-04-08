@@ -9,7 +9,7 @@ module Esendex
   class Message
     attr_accessor :to, :body, :from
 
-    def initialize(to, body, from=nil)
+    def initialize(to, body, from = nil)
       @to = to
       @body = body
       @from = from

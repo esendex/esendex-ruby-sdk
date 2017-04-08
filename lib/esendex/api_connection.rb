@@ -2,7 +2,6 @@ require 'nestful'
 
 module Esendex
   class ApiConnection
-
     def initialize
       @connection = Nestful::Connection.new(Esendex::API_HOST)
       @connection.user = Esendex.username

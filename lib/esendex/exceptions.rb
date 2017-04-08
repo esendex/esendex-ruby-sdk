@@ -11,16 +11,16 @@ module Esendex
       end
     end
   end
-  
+
   class ApiError < StandardError
   end
-  
+
   class NotAuthorizedError < ApiError
   end
-  
+
   class ForbiddenError < ApiError
   end
-  
+
   class AccountReferenceError < ApiError
   end
 end

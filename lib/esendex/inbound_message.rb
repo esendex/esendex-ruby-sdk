@@ -12,7 +12,7 @@ require 'nokogiri'
 module Esendex
   class InboundMessage
     include HashSerialisation
-    
+
     attr_accessor :id, :message_id, :account_id, :message_text, :from, :to
 
     def self.from_xml(source)
@@ -26,6 +26,5 @@ module Esendex
       event.to = doc.at_xpath("/InboundMessage/To").content
       event
     end
-
   end
 end

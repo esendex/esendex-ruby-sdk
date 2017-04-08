@@ -25,6 +25,5 @@ module Esendex
       event.occurred_at = DateTime.strptime(occurred_at_s, "%Y-%m-%dT%H:%M:%S").to_time
       event
     end
-
   end
 end

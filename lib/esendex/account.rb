@@ -22,7 +22,7 @@ module Esendex
       node.content.to_i
     end
 
-    def send_message(args={})
+    def send_message(args = {})
       raise ArgumentError.new(":to required") unless args[:to]
       raise ArgumentError.new(":body required") unless args[:body]
 
@@ -35,7 +35,7 @@ module Esendex
       DispatcherResult.from_xml response.body
     end
 
-    def sent_messages(args={})
+    def sent_messages(args = {})
       SentMessageClient
         .new(api_connection)
         .get_messages(args.merge(account_reference: reference))
