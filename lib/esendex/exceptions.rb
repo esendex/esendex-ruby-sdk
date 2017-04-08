@@ -3,11 +3,11 @@ module Esendex
     def get_api_error(source_error)
       case source_error
       when Nestful::ForbiddenAccess
-        return ForbiddenError.new
+        ForbiddenError.new
       when Nestful::UnauthorizedAccess
-        return NotAuthorizedError.new
+        NotAuthorizedError.new
       else
-        return ApiError.new(source_error)
+        ApiError.new(source_error)
       end
     end
   end
