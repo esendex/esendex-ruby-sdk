@@ -18,13 +18,13 @@ module Esendex
       response = api_connection.get "/v1.0/accounts"
       doc = Nokogiri::XML(response.body)
       node = doc.at_xpath("//api:account[api:reference='#{@reference}']/api:messagesremaining", 'api' => Esendex::API_NAMESPACE)
-      raise AccountReferenceError.new if node.nil?
+      raise AccountReferenceError if node.nil?
       node.content.to_i
     end
 
     def send_message(args = {})
-      raise ArgumentError.new(":to required") unless args[:to]
-      raise ArgumentError.new(":body required") unless args[:body]
+      raise ArgumentError, ":to required" unless args[:to]
+      raise ArgumentError, ":body required" unless args[:body]
 
       send_messages [Message.new(args[:to], args[:body], args[:from])]
     end

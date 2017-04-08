@@ -4,7 +4,7 @@ module Esendex
   module HashSerialisation
     def initialize(attrs = {})
       attrs.each_pair do |k, v|
-        raise ArgumentError.new("#{k} not an attribute of #{self.class.name}") unless respond_to?("#{k}=")
+        raise ArgumentError, "#{k} not an attribute of #{self.class.name}" unless respond_to?("#{k}=")
         send("#{k}=", v)
       end
     end
