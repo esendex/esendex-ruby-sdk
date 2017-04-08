@@ -14,5 +14,5 @@ group :development, :test do
   gem 'rspec', '~> 3.5'
   gem 'rspec-rails'
   gem 'test-unit'
-  gem 'wdm', "<= 0.0.3", platforms: [:mswin, :mingw], require: false
+  gem 'wdm', "<= 0.0.3", platforms: %i[mswin mingw], require: false
 end
