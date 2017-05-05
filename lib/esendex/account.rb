@@ -34,11 +34,5 @@ module Esendex
       response = api_connection.post("/v1.0/messagedispatcher", batch_submission.to_s)
       DispatcherResult.from_xml response.body
     end
-
-    def sent_messages(args={})
-      SentMessageClient
-        .new(api_connection)
-        .get_messages(args.merge(account_reference: reference))
-    end
   end
 end

@@ -8,6 +8,8 @@ This is in early stages of development but supports the primary requirements aro
 
 ### Setting up
 
+Requires Rails 5
+
 From the command line
 
     gem install esendex
@@ -51,16 +53,6 @@ Multiple messages are sent by passing an array of `Messages` to the `send_messag
 result = account.send_messages([Message.new("07777111222", "Hello"), Message.new("07777111333", "Hi")])
 ```
 
-Sent messages can be retrieved by calling the `sent_messages` method. The return value is a *SentMessagesResult*
-
-```ruby
-result = account.sent_messages
-puts result
-result.messages.each do |message|
-  puts message
-end
-```
-
 ### Testing Configuration
 
 The Esendex Gem ships with a couple of rake tasks that allow you to simply validate that all is well.
@@ -96,9 +88,9 @@ Classes are provided in the gem for deserialising the notifications: `MessageDel
 message = InboundMessage.from_xml request.body
 ```
 
-### Rails 3 / Rails 4
+### Rails
 
-In order to simplify receipt of push notifications for Rails 3 users, the gem ships with mountable Rails controllers to handle the receipt of these notifications.
+In order to simplify receipt of push notifications for Rails users, the gem ships with mountable Rails controllers to handle the receipt of these notifications.
 
 To mount the end points, add this to `routes.rb`
 
