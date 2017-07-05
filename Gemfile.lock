@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     esendex (1.0.0)
-      nestful (~> 0.0.8)
+      nestful (~> 1.0.1)
       nokogiri (>= 1.4.4.1)
 
 GEM
@@ -87,8 +87,7 @@ GEM
     mini_portile2 (2.1.0)
     minitest (5.10.1)
     nenv (0.3.0)
-    nestful (0.0.8)
-      activesupport (>= 3.0.0.beta)
+    nestful (1.0.7)
     nio4r (2.0.0)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
@@ -190,4 +189,4 @@ DEPENDENCIES
   wdm (<= 0.0.3)
 
 BUNDLED WITH
-   1.14.3
+   1.15.1
