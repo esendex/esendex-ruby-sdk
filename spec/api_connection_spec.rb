@@ -4,9 +4,9 @@ describe ApiConnection do
   let(:api_connection) { ApiConnection.new }
 
   before(:each) do
-    @connection = Nestful::Connection.new Esendex::API_HOST
+    @connection = Nestful::Request.new Esendex::API_HOST
 
-    allow(Nestful::Connection).to receive(:new).and_return @connection
+    allow(Nestful::Request).to receive(:new).and_return @connection
     allow(@connection).to receive :get
     allow(@connection).to receive :post
 
