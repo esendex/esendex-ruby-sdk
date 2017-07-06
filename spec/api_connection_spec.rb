@@ -1,14 +1,12 @@
 require 'spec_helper'
+require 'net/http'
 
 describe ApiConnection do
   let(:api_connection) { ApiConnection.new }
 
   before(:each) do
-    @connection = Nestful::Request.new Esendex::API_HOST
-
-    allow(Nestful::Request).to receive(:new).and_return @connection
-    allow(@connection).to receive :get
-    allow(@connection).to receive :post
+    @request = Nestful::Request.new(Esendex::API_HOST)
+    allow(@request).to receive :execute
 
     Esendex.configure do |config|
       config.username = random_string
@@ -16,38 +14,50 @@ describe ApiConnection do
     end
   end
 
-  describe "#initialise" do
-    subject { ApiConnection.new }
+  def expect_to_initialize_request_with(options)
+    expect(Nestful::Request)
+      .to receive(:new)
+      .with(anything, hash_including(options))
+      .and_return(@request)
+  end
+
+  describe "authorisation" do
+    let(:url) { random_string }
 
     it "should set the username" do
-      subject
-      expect(@connection.user).to eq Esendex.username
+      expect_to_initialize_request_with user: Esendex.username
+
+      api_connection.get(url)
     end
 
     it "should set the password" do
-      subject
-      expect(@connection.password).to eq Esendex.password
+      expect_to_initialize_request_with password: Esendex.password
+
+      api_connection.get(url)
     end
 
     it "should set the auth to basic" do
-      subject
-      expect(@connection.auth_type).to eq :basic
+      expect_to_initialize_request_with auth_type: :basic
+
+      api_connection.get(url)
     end
   end
 
   describe "#get" do
     let(:url) { random_string }
 
-    subject { api_connection.get url }
+    subject { api_connection.get(url) }
 
     it "should call get with headers" do
-      expect(@connection).to receive(:get).with(url, api_connection.default_headers)
+      expect_any_instance_of(Nestful::Resource)
+        .to receive(:get).with(url, {}, hash_including(headers: { 'User-Agent' => Esendex.user_agent }))
+
       subject
     end
 
     context "when 403 raised" do
       before(:each) do
-        allow(@connection).to receive(:get).and_raise Nestful::ForbiddenAccess.new(nil)
+        allow_any_instance_of(Nestful::Resource).to receive(:get).and_raise Nestful::ForbiddenAccess.new(nil)
       end
 
       it "raises an ForbiddenError" do
@@ -63,13 +73,16 @@ describe ApiConnection do
     subject { api_connection.post url, body }
 
     it "should call post with headers" do
-      expect(@connection).to receive(:post).with(url, body, api_connection.default_headers)
+      expect_any_instance_of(Nestful::Resource)
+        .to receive(:post).with(url, {}, hash_including(body: body))
+
       subject
     end
 
     context "when 403 raised" do
       before(:each) do
-        allow(@connection).to receive(:post).and_raise Nestful::ForbiddenAccess.new(nil)
+        allow_any_instance_of(Nestful::Resource)
+          .to receive(:post).and_raise Nestful::ForbiddenAccess.new(nil)
       end
 
       it "raises an ForbiddenError" do

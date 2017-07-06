@@ -1,4 +1,7 @@
 module Esendex
+  API_NAMESPACE = 'http://api.esendex.com/ns/'
+  API_HOST = 'https://api.esendex.com'
+
   require_relative 'esendex/version'
   require_relative 'esendex/exceptions'
   require_relative 'esendex/api_connection'
@@ -19,9 +22,6 @@ module Esendex
     require_relative 'esendex/railtie'
     require_relative 'esendex/engine'
   end
-
-  API_NAMESPACE = 'http://api.esendex.com/ns/'
-  API_HOST = 'https://api.esendex.com'
 
   # Public - used to configure the gem prior to use
   #

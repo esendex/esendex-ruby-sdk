@@ -1,26 +1,26 @@
 require 'nestful'
 
 module Esendex
-  class ApiConnection
-    def initialize
-      @connection = Nestful::Request.new(Esendex::API_HOST)
-      @connection.user = Esendex.username
-      @connection.password = Esendex.password
-      @connection.auth_type = :basic
-    end
+  class ApiConnection < Nestful::Resource
+    endpoint Esendex::API_HOST
 
-    def default_headers
-      { 'User-Agent' => Esendex.user_agent }
+    def default_options
+      {
+        auth_type: :basic,
+        user: Esendex.username,
+        password: Esendex.password,
+        headers: { 'User-Agent' => Esendex.user_agent }
+      }
     end
 
     def get(url)
-      @connection.get url, default_headers
+      super url, {}, default_options
     rescue => e
       raise Esendex::ApiErrorFactory.new.get_api_error(e)
     end
 
     def post(url, body)
-      @connection.post url, body, default_headers
+      super url, {}, default_options.merge(body: body)
     rescue => e
       raise Esendex::ApiErrorFactory.new.get_api_error(e)
     end
