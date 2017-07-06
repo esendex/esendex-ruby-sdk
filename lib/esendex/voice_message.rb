@@ -1,11 +1,12 @@
 module Esendex
   class VoiceMessage
-    attr_accessor :to, :body, :from
+    attr_accessor :to, :body, :from, :retries
 
-    def initialize(to, body, from = nil)
+    def initialize(to, body, from = nil, options = {})
       @to = to
       @body = body
       @from = from
+      @retries = options[:retries]
     end
 
     def xml_node
@@ -18,6 +19,12 @@ module Esendex
       type = Nokogiri::XML::Node.new 'type', doc
       type.content = 'Voice'
       doc.add_child(type)
+
+      if @retries
+        retries = Nokogiri::XML::Node.new 'retries', doc
+        retries.content = @retries
+        doc.add_child(retries)
+      end
 
       doc
     end

@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+
 require File.expand_path('../lib/esendex/version', __FILE__)
 
 Gem::Specification.new do |gem|
@@ -14,6 +15,6 @@ Gem::Specification.new do |gem|
   gem.name          = "esendex"
   gem.require_paths = ["lib"]
   gem.version       = Esendex::VERSION
-  gem.add_runtime_dependency "nestful", ["~> 0.0.8"]
+  gem.add_runtime_dependency "nestful", ["~> 1.0.1"]
   gem.add_runtime_dependency "nokogiri", [">= 1.4.4.1"]
 end
