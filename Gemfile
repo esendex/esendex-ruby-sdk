@@ -15,4 +15,5 @@ group :development, :test do
   gem 'growl'
   gem 'wdm', "<= 0.0.3", :platforms => [:mswin, :mingw], :require => false
   gem 'activeresource'
+  gem 'rails-observers', '0.1.2'
 end
