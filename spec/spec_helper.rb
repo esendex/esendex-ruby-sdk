@@ -1,5 +1,6 @@
 require 'rake'
 require 'rspec'
+require 'rspec/collection_matchers'
 
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"

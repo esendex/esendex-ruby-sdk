@@ -22,13 +22,13 @@ module Esendex
       subject { DummyHashSerialisation.new @attrs }
 
       it "sets the name" do
-        subject.name.should eq(name)
+        expect(subject.name).to eq(name)
       end
       it "sets the time" do
-        subject.time.should eq(time)
+        expect(subject.time).to eq(time)
       end
       it "sets the notes" do
-        subject.notes.should eq(notes)
+        expect(subject.notes).to eq(notes)
       end
 
       context "when invalid attribute passed" do
@@ -45,7 +45,7 @@ module Esendex
       subject { DummyHashSerialisation.new(@attrs).to_hash }
 
       it "should match the init hash" do
-        subject.should eq(@attrs)
+        expect(subject).to eq(@attrs)
       end
     end
 

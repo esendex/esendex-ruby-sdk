@@ -8,15 +8,15 @@ describe Message do
     let(:message) { Esendex::Message.new(to, body, from) }
     
     it "should have to set" do
-      message.to.should eq(to)
+      expect(message.to).to eq(to)
     end
     
     it "should have from set" do
-      message.from.should eq(from)
+      expect(message.from).to eq(from)
     end
     
     it "should have body set" do
-      message.body.should eq(body)
+      expect(message.body).to eq(body)
     end
   end
   
@@ -28,10 +28,10 @@ describe Message do
     subject { message.xml_node }
 
     it "contains a to node" do
-      subject.at_xpath('//message/to').content.should eq(to)
+      expect(subject.at_xpath('//message/to').content).to eq(to)
     end
     it "contains a body node" do
-      subject.at_xpath('//message/body').content.should eq(body)
+      expect(subject.at_xpath('//message/body').content).to eq(body)
     end
 
     context "when #from set" do
@@ -42,7 +42,7 @@ describe Message do
       end
 
       it "contains a from node" do
-        subject.at_xpath('//message/from').content.should eq(from)
+        expect(subject.at_xpath('//message/from').content).to eq(from)
       end
     end
   end

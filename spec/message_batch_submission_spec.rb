@@ -10,18 +10,18 @@ describe MessageBatchSubmission do
     subject { message_batch.xml_node }
 
     it "creates message nodes" do
-      subject.xpath('//messages/message').count.should eq(messages.count)
+      expect(subject.xpath('//messages/message').count).to eq(messages.count)
     end
     
     it "sets the message to" do
       (0..1).each do |i|
-        subject.xpath('//messages/message/to')[i].content.should eq(messages[i].to)
+        expect(subject.xpath('//messages/message/to')[i].content).to eq(messages[i].to)
       end
     end
     
     it "sets the message body" do
       (0..1).each do |i|
-        subject.xpath('//messages/message/body')[i].content.should eq(messages[i].body)
+        expect(subject.xpath('//messages/message/body')[i].content).to eq(messages[i].body)
       end
     end
     
@@ -33,7 +33,7 @@ describe MessageBatchSubmission do
       end
 
       it "creates a properly formatted sendat node" do
-        subject.at_xpath('//messages/sendat').content.should eq("2011-04-07T15:00:00")
+        expect(subject.at_xpath('//messages/sendat').content).to eq("2011-04-07T15:00:00")
       end
     end
   end
