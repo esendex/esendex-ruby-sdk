@@ -4,7 +4,7 @@ gemspec
 
 group :development, :test do
   gem 'rails', "~> 4.1.16"
-  gem 'rake'
+  gem 'rake', '~> 12.2.1'
   gem 'rspec'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
@@ -16,4 +16,5 @@ group :development, :test do
   gem 'wdm', "<= 0.0.3", :platforms => [:mswin, :mingw], :require => false
   gem 'activeresource'
   gem 'rails-observers', '0.1.2'
+  gem 'listen', '~> 3.0.0'
 end
