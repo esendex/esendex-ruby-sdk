@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gemspec
 
 group :development, :test do
-  gem 'rails', "~> 4.0.13"
+  gem 'rails', "~> 4.1.16"
   gem 'rake'
   gem 'rspec'
   gem 'rspec-rails'
