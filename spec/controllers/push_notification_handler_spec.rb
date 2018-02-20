@@ -11,9 +11,9 @@ module Esendex
     subject { controller.process_notification @type, @source }
 
     before(:each) do
-      @logger = mock('Logger', info: true)
-      controller.stub(:logger) { @logger }
-      controller.stub(:render)
+      @logger = double('Logger', info: true)
+      allow(controller).to receive(:logger) { @logger }
+      allow(controller).to receive(:render)
     end
 
     @notifications = {
@@ -58,7 +58,7 @@ module Esendex
           @source = config[:source]
           @notification_class = config[:class]
           @notification = @notification_class.from_xml(@source)
-          @notification_class.stub(:from_xml) { @notification }
+          allow(@notification_class).to receive(:from_xml) { @notification }
         end
 
         context "when a handler is configured" do
@@ -66,16 +66,16 @@ module Esendex
             Esendex.send("#{notification_type}_handler=", @handler)
           end
           it "initializes a #{config[:class].name} from the source" do
-            @notification_class.should_receive(:from_xml).with(@source)
+            expect(@notification_class).to receive(:from_xml).with(@source)
             subject
           end
           it "calls the handler" do
-            @handler.should_receive(:call).with(@notification)
+            expect(@handler).to receive(:call).with(@notification)
             subject
           end
           it "the handler can process the input" do
             subject
-            @received_id.should eq(@notification.id)
+            expect(@received_id).to eq(@notification.id)
           end
         end
         context "when no handler configured" do
@@ -83,11 +83,11 @@ module Esendex
             Esendex.send("#{notification_type}_handler=", nil)
           end
           it "does not init a #{config[:class].name}" do
-            @notification_class.should_not_receive(:from_xml)
+            expect(@notification_class).to_not receive(:from_xml)
             subject
           end
           it "should log info line" do
-            @logger.should_receive(:info).with(/#{notification_type.to_s}/)
+            expect(@logger).to receive(:info).with(/#{notification_type.to_s}/)
             subject
           end
         end

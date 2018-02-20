@@ -96,9 +96,9 @@ Classes are provided in the gem for deserialising the notifications: `MessageDel
 message = InboundMessage.from_xml request.body
 ```
 
-### Rails 3 / Rails 4
+### Rails 4
 
-In order to simplify receipt of push notifications for Rails 3 users, the gem ships with mountable Rails controllers to handle the receipt of these notifications.
+In order to simplify receipt of push notifications for Rails users, the gem ships with mountable Rails controllers to handle the receipt of these notifications.
 
 To mount the end points, add this to `routes.rb`
 
@@ -117,7 +117,7 @@ Esendex.message_delivered_event_handler = lambda { |notification|
 }
 ```
 
-Please be kind to us and don't perform anything potentially long running in this call back as our notifier may timeout the request and pass the notififation to the retry queue. 
+Please be kind to us and don't perform anything potentially long running in this call back as our notifier may timeout the request and pass the notification to the retry queue. 
 
 If you need to perform processing that may run for a longer time then using an async task system like [Resque](https://github.com/defunkt/resque) is recommended.
 
@@ -176,11 +176,11 @@ This project also ships with a `Guardfile` so you can run tests continuously.
 
 ## Contributing
 
-We really welcome any thoughts or guidance on how this gem could best provide the hooks you need to consume our services in your applicaiton. Please fork and raise pull requests for any features you would like us to add or raise an [issue]((https://github.com/esendex/esendex.gem/issues)
+We really welcome any thoughts or guidance on how this gem could best provide the hooks you need to consume our services in your applicaiton. Please fork and raise pull requests for any features you would like us to add or raise an [issue]((https://github.com/esendex/esendex-ruby-sdk/issues)
 
 Customers with more pressing issues should contact our support teams via the usual local phone number or by email: [support@esendex.com](mailto:support@esendex.com).
 
 ## Copyright
 
-Copyright (c) 2011-13 Esendex Ltd. See licence.txt for further details.
+Copyright (c) 2011-18 Esendex Ltd. See licence.txt for further details.
 

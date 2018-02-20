@@ -10,19 +10,19 @@ describe VoiceMessage do
 
     context 'its xml' do
       it "contains to" do
-        subject.at_xpath('//message/to').content.should eq(to)
+        expect(subject.at_xpath('//message/to').content).to eq(to)
       end
 
       it "contains body" do
-        subject.at_xpath('//message/body').content.should eq(body)
+        expect(subject.at_xpath('//message/body').content).to eq(body)
       end
 
       it "contains type" do
-        subject.at_xpath('//message/type').content.should eq('Voice')
+        expect(subject.at_xpath('//message/type').content).to eq('Voice')
       end
 
       it "contains language" do
-        subject.at_xpath('//message/lang').content.should eq('en-GB')
+        expect(subject.at_xpath('//message/lang').content).to eq('en-GB')
       end
     end
   end
