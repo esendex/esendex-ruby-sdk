@@ -5,7 +5,8 @@ describe Message do
     let(:to) { random_mobile }
     let(:from) { random_mobile }
     let(:body) { random_string }
-    let(:message) { Esendex::Message.new(to, body, from) }
+    let(:characterset) { 'Unicode' }
+    let(:message) { Esendex::Message.new(to, body, from, characterset) }
     
     it "should have to set" do
       expect(message.to).to eq(to)
@@ -18,12 +19,17 @@ describe Message do
     it "should have body set" do
       expect(message.body).to eq(body)
     end
+
+    it "should have characterset set" do
+      expect(message.characterset).to eq(characterset)
+    end
   end
   
   describe "#xml_node" do
     let(:to) { random_mobile }
     let(:body) { random_string }
-    let(:message) { Esendex::Message.new(to, body) }
+    let(:characterset) { 'Auto' }
+    let(:message) { Esendex::Message.new(to, body, ) }
 
     subject { message.xml_node }
 
@@ -44,6 +50,10 @@ describe Message do
       it "contains a from node" do
         expect(subject.at_xpath('//message/from').content).to eq(from)
       end
+    end
+
+    it "contains a characterset node" do
+      expect(subject.at_xpath('//message/characterset').content).to eq(characterset)
     end
   end
 end
