@@ -1,6 +1,29 @@
 language: ruby
 rvm:
-  - "2.2"
-  - "2.3"
-  - "2.4"
+  - 2.6
+  - 2.7.2
+  - 3.0
+os: linux
+sudo: true
+
 script: bundle exec rspec
+
+cache:
+  bundler: false
+
+gemfile:
+  - gemfiles/rails_52.gemfile
+  - gemfiles/rails_60.gemfile
+  - gemfiles/rails_61.gemfile
+
+jobs:
+  include:
+    - rvm: 2.2
+      gemfile: gemfiles/rails_51.gemfile
+    - rvm: 2.3
+      gemfile: gemfiles/rails_52.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/rails_52.gemfile
+  exclude:
+    - rvm: 3.0
+      gemfile: gemfiles/rails_52.gemfile

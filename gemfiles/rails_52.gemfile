@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gemspec
+gemspec path: '../'
 
 group :development, :test do
   gem 'activeresource'
@@ -8,7 +8,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rspec'
   gem 'listen'
-  gem 'rails', '~> 6.0'
+  gem 'rails', '>= 5.2', '< 6.0'
   gem 'rails-observers'
   gem 'rb-fsevent', require: false
   gem 'rb-inotify', require: false
